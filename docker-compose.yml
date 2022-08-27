@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  docker-postgres:
+    image: postgis/postgis:14-3.2
+    container_name: saigneur-database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: adminpostgres
+
+  docker-utilisateur:
+    depends_on:
+      - docker-postgres
+    container_name: saigneur-utilisateur
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "9002:9002"   #le premier port est le port externe et le second port est le port interne
+    restart: always
+    environment:
+      CANDIDAT_DB_HOST: docker-postgres:5432
+      CANDIDAT_DB_USER: postgres
+      CANDIDAT_DB_PASSWORD: adminpostgres
+      CANDIDAT_DB_NAME: saigneurutilisateurdb
+
+volumes:
+  postgres_data: {}
