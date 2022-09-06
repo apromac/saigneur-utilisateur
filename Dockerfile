@@ -5,8 +5,10 @@
 FROM openjdk:11-alpine
 LABEL maintainer = "apromac <abraham.tiene@apromac.ci>"
 
-RUN mkdir /usr/local/microservice
-WORKDIR /usr/local/microservice
+RUN mkdir /usr/local/microservice \
+&& mkdir /usr/local/microservice/msaigneur
+
+WORKDIR /usr/local/microservice/msaigneur
 COPY target/*.jar saigneur-utilisateur.jar
 
 EXPOSE 9001

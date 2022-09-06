@@ -49,6 +49,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurs;
     }
 
+    /**
+     *
+     * @param profilID
+     * @return
+     */
+    @Override
     public List<UtilisateurEntity> findByProfil(Long profilID) {
         List<UtilisateurEntity> utilisateurs = utilisateurRepository.findByProfil(profilID);
 

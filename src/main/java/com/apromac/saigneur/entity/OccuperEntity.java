@@ -17,6 +17,12 @@ public class OccuperEntity {
     private Long occuperID;
 
     @Column(name = "lib_occuper", nullable = false)
+    private String libOccuper;
+
+    @Column(name = "date_occuper", nullable = false)
     private Date dateOccuper;
+
+    @Column(name = "actif_occuper", nullable = false)
+    private Boolean isOccuper;
 
 }
