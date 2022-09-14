@@ -3,6 +3,11 @@ pipeline {
     tools {
         maven "Maven386"
     }
+    environment {
+        DOCKER_IMAGE_NAME = "saigneur-utilisateur"
+        BUILD_TAG = "v0.0.${BUILD_NUMBER}"
+        CONTAINER_NAME = "msaigneur-utilisateur"
+    }
 
     stages {
         stage('Build') {
@@ -16,6 +21,28 @@ pipeline {
 //                     archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)
 //                 }
 //             }
+        }
+
+        stage ('Arret et suppression') {
+            steps {
+                echo '--------------------< Arret du conteneur >--------------------'
+                script {
+                    try {
+                        sh 'docker container ls -a -fname=${CONTAINER_NAME} -q | xargs -r docker stop'
+                    } catch(error) {
+                        echo 'error Arret du conteneur'
+                    }
+                }
+
+                echo '--------------------< Suppression du conteneur >--------------------'
+                script {
+                    try {
+                        sh 'docker container ls -a -fname=${CONTAINER_NAME} -q | xargs -r docker rm'
+                    } catch(error) {
+                        echo 'error Suppression du conteneur' +error
+                    }
+                }
+            }
         }
 
         stage('Build and start container') {

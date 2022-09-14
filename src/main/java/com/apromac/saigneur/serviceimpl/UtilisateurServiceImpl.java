@@ -1,6 +1,8 @@
 package com.apromac.saigneur.serviceimpl;
 
+import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
+import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.repository.ProfilRepository;
 import com.apromac.saigneur.repository.UtilisateurRepository;
@@ -56,11 +58,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      */
     @Override
     public List<UtilisateurEntity> findByProfil(Long profilID) {
-        List<UtilisateurEntity> utilisateurs = utilisateurRepository.findByProfil(profilID);
+        Optional<ProfilEntity> profilOptional = profilRepository.findById(profilID);
+        if (!profilOptional.isPresent())
+            throw new NotFoundException("Désolé, ce profil n'existe pas");
 
+        List<UtilisateurEntity> utilisateurs = utilisateurRepository.findByProfil(profilOptional.get());
         if (utilisateurs.isEmpty())
-            throw new NotFoundException("Désolé, aucun utilisateur disponible");
+            throw new NoContentException("Désolé, aucun utilisateur disponible");
 
         return utilisateurs;
     }
+
 }

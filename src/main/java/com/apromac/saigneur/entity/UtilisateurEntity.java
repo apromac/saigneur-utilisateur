@@ -18,8 +18,17 @@ public class UtilisateurEntity {
     @Column(name = "nom_utilisateur", nullable = false)
     private String nomUtilisateur;
 
-    @Column(name = "prenoms_utilisateur", nullable = false)
+    @Column(name = "prenoms_utilisateur", nullable = true)
     private String prenomsUtilisateur;
+
+    @Column(name = "username_utilisateur", nullable = false)
+    private String username;
+
+    @Column(name = "password_utilisateur", nullable = false)
+    private String password;
+
+    @Column(name = "photo_utilisateur", nullable = true)
+    private String photoUtilisateur;
 
     @ManyToOne
     @JoinColumn(name = "code_profil", nullable = false)
