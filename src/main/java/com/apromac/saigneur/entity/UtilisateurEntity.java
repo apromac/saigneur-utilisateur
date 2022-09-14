@@ -21,4 +21,8 @@ public class UtilisateurEntity {
     @Column(name = "prenoms_utilisateur", nullable = false)
     private String prenomsUtilisateur;
 
+    @ManyToOne
+    @JoinColumn(name = "code_profil", nullable = false)
+    private ProfilEntity profil;
+
 }

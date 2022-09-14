@@ -17,12 +17,20 @@ public class OccuperEntity {
     private Long occuperID;
 
     @Column(name = "lib_occuper", nullable = false)
-    private String libOccuper;
+    private String libelleOccuper;
 
     @Column(name = "date_occuper", nullable = false)
     private Date dateOccuper;
 
     @Column(name = "actif_occuper", nullable = false)
     private Boolean isOccuper;
+
+    @ManyToOne
+    @JoinColumn(name = "code_poste", nullable = false)
+    private PosteEntity poste;
+
+    @ManyToOne
+    @JoinColumn(name = "code_utilisateur", nullable = false)
+    private UtilisateurEntity utilisateur;
 
 }

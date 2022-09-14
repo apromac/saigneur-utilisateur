@@ -13,7 +13,7 @@ public class ProfilEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profil", updatable = false, nullable = false)
-    private Long campagneID;
+    private Long profilID;
 
     @Column(name = "lib_profil", nullable = false)
     private String libelleProfil;

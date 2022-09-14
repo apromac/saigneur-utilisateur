@@ -41,10 +41,10 @@ public class UtilisateurController {
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs grace à l'ID du profil")
     @GetMapping(value = "/utilisateur/findByProfil/{profilID}")
-    public ResponseEntity<List<UtilisateurEntity>> utilisateurParProfil(@PathVariable long profilID) {
-        List<UtilisateurEntity> byProfils = utilisateurService.findByProfil(profilID);
+    public ResponseEntity<List<UtilisateurEntity>> recupererUtilisateurParProfil(@PathVariable long profilID) {
+        List<UtilisateurEntity> profilUtilisateurs = utilisateurService.findByProfil(profilID);
 
-        return new ResponseEntity<>(byProfils, HttpStatus.OK);
+        return new ResponseEntity<>(profilUtilisateurs, HttpStatus.OK);
     }
 
 }
