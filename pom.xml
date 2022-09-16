@@ -147,7 +147,6 @@
 						<include>**/*Test.java</include>
 					</includes>
 					<excludes>
-<!--						<exclude>**/Abstract*.java</exclude>-->
 						<exclude>**/SaigneurUtilisateur*.java</exclude>
 					</excludes>
 					<junitArtifactName>junit:junit</junitArtifactName>

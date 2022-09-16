@@ -30,7 +30,7 @@ pipeline {
                     try {
                         sh 'docker container ls -a -fname=${CONTAINER_NAME} -q | xargs -r docker stop'
                     } catch(error) {
-                        echo 'error Arret du conteneur'
+                        echo 'error arret du conteneur'
                     }
                 }
 
