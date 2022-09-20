@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProfilService {
-    public Optional<ProfilEntity> findByProfilID(Long profilID);
+    public ProfilEntity findByProfilID(Long profilID);
+    public ProfilEntity saveProfil(ProfilEntity profil);
     public List<ProfilEntity> findAllProfil();
 }

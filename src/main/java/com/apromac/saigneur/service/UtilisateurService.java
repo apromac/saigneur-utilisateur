@@ -3,10 +3,10 @@ package com.apromac.saigneur.service;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UtilisateurService {
-    public Optional<UtilisateurEntity> findByUtilisateurID(Long utilisateurID);
+    public UtilisateurEntity findByUtilisateurID(Long utilisateurID);
+    public UtilisateurEntity saveUtilisateur(UtilisateurEntity utilisateur);
     public List<UtilisateurEntity>findAllUtilisateur();
     public List<UtilisateurEntity> findByProfil(Long profilID);
 }

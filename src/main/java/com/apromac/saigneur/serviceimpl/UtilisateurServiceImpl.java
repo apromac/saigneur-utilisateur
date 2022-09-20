@@ -28,13 +28,26 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      * @return
      */
     @Override
-    public Optional<UtilisateurEntity> findByUtilisateurID(Long utilisateurID) {
+    public UtilisateurEntity findByUtilisateurID(Long utilisateurID) {
         Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
 
         if (!utilisateurOptional.isPresent())
             throw new NotFoundException("Désolé, le utilisateur désignée n'existe pas");
 
-        return utilisateurOptional;
+        return utilisateurOptional.get();
+    }
+
+    /**
+     *
+     * @param utilisateur
+     * @return
+     */
+    public UtilisateurEntity saveUtilisateur(UtilisateurEntity utilisateur) {
+        UtilisateurEntity utilisateurSave = utilisateurRepository.save(utilisateur);
+        if (utilisateurSave == null)
+            throw new RuntimeException("Une erreur est survenu lors de la sauvegarde de l'utilisateur.");
+
+        return utilisateurSave;
     }
 
     /**

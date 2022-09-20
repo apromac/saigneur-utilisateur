@@ -3,9 +3,9 @@ package com.apromac.saigneur.service;
 import com.apromac.saigneur.entity.PosteEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PosteService {
-    public Optional<PosteEntity> findByPosteID(Long posteID);
+    public PosteEntity findByPosteID(Long posteID);
+    public PosteEntity savePoste(PosteEntity poste);
     public List<PosteEntity> findAllPoste();
 }

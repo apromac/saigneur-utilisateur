@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -22,9 +21,17 @@ public class PosteController {
     @ApiOperation(value = "Méthode permettant de récupérer un poste grace à son ID")
     @GetMapping(value = "/poste/findByPosteID/{posteID}")
     public ResponseEntity<PosteEntity> recupererUnPoste(@PathVariable long posteID) {
-        Optional<PosteEntity> posteOptional = posteService.findByPosteID(posteID);
+        PosteEntity poste = posteService.findByPosteID(posteID);
 
-        return new ResponseEntity<>(posteOptional.get(), HttpStatus.OK);
+        return new ResponseEntity<>(poste, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Méthode permettant de sauvegarder un poste")
+    @PostMapping(value = "/poste/savePoste")
+    public ResponseEntity<PosteEntity> sauvegarderUnPoste(@RequestBody PosteEntity poste) {
+        PosteEntity posteSave = posteService.savePoste(poste);
+
+        return new ResponseEntity<>(posteSave, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes")

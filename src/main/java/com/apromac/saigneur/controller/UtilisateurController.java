@@ -1,5 +1,6 @@
 package com.apromac.saigneur.controller;
 
+import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.service.ProfilService;
 import com.apromac.saigneur.service.UtilisateurService;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -23,12 +23,21 @@ public class UtilisateurController {
     @Autowired
     private ProfilService profilService;
 
+
     @ApiOperation(value = "Méthode permettant de récupérer un utilisateur grace à son ID")
     @GetMapping(value = "/utilisateur/findByUtilisateurID/{utilisateurID}")
     public ResponseEntity<UtilisateurEntity> recupererUnUtilisateur(@PathVariable long utilisateurID) {
-        Optional<UtilisateurEntity> utilisateurOptional = utilisateurService.findByUtilisateurID(utilisateurID);
+        UtilisateurEntity utilisateur = utilisateurService.findByUtilisateurID(utilisateurID);
 
-        return new ResponseEntity<>(utilisateurOptional.get(), HttpStatus.OK);
+        return new ResponseEntity<>(utilisateur, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Méthode permettant de sauvegarder un utilisateur")
+    @PostMapping(value = "/utilisateur/saveUtilisateur")
+    public ResponseEntity<UtilisateurEntity> sauvegarderUnUtilisateur(@RequestBody UtilisateurEntity utilisateur) {
+        UtilisateurEntity utilisateurSave = utilisateurService.saveUtilisateur(utilisateur);
+
+        return new ResponseEntity<>(utilisateurSave, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs")

@@ -22,13 +22,25 @@ public class ProfilServiceImpl implements ProfilService {
      * @return
      */
     @Override
-    public Optional<ProfilEntity> findByProfilID(Long profilID) {
+    public ProfilEntity findByProfilID(Long profilID) {
         Optional<ProfilEntity> profilOptional = profilRepository.findById(profilID);
-
         if (!profilOptional.isPresent())
             throw new NotFoundException("Désolé, le profil désignée n'existe pas");
 
-        return profilOptional;
+        return profilOptional.get();
+    }
+
+    /**
+     *
+     * @param profil
+     * @return
+     */
+    public ProfilEntity saveProfil(ProfilEntity profil) {
+        ProfilEntity profilSave = profilRepository.save(profil);
+        if (profilSave == null)
+            throw new RuntimeException("Une erreur est survenu lors de la sauvegarde du profil.");
+
+        return profilSave;
     }
 
     /**
@@ -38,7 +50,6 @@ public class ProfilServiceImpl implements ProfilService {
     @Override
     public List<ProfilEntity> findAllProfil() {
         List<ProfilEntity> profils = profilRepository.findAll();
-
         if (profils.isEmpty())
             throw new NotFoundException("Désolé, aucun profil disponible");
 
