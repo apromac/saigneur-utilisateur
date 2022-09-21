@@ -1,6 +1,6 @@
 package com.apromac.saigneur.controller;
 
-import com.apromac.saigneur.dto.UtilisateurAuthDTO;
+import com.apromac.saigneur.dto.UtilisateurDTO;
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.service.OccuperService;
@@ -50,10 +50,18 @@ public class UtilisateurController {
 
     @ApiOperation(value = "Méthode permettant à un utilisateur de s'authentifier et de recupérer toutes informations sur l'utilisateur connecté")
     @PostMapping(value = "/utilisateur/auth")
-    public ResponseEntity<UtilisateurAuthDTO> authentification(@Validated @RequestBody AuthentificateRequest authentificateRequest) {
-        UtilisateurAuthDTO utilisateurAuth = utilisateurService.authentification(authentificateRequest.getUsername(), authentificateRequest.getPassword());
+    public ResponseEntity<UtilisateurDTO> authentification(@Validated @RequestBody AuthentificateRequest authentificateRequest) {
+        UtilisateurDTO utilisateurAuth = utilisateurService.authentification(authentificateRequest.getUsername(), authentificateRequest.getPassword());
 
         return new ResponseEntity<>(utilisateurAuth, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs avec plus de details")
+    @GetMapping(value = "/utilisateur/findUtilisateurDetails")
+    public ResponseEntity<List<UtilisateurDTO>> recupererUtilisateurDetails() {
+        List<UtilisateurDTO> utilisateurDetails = utilisateurService.utilisateurDetails();
+
+        return new ResponseEntity<>(utilisateurDetails, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un utilisateur")

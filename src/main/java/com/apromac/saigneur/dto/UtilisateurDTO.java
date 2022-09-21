@@ -3,7 +3,7 @@ package com.apromac.saigneur.dto;
 import lombok.Data;
 
 @Data
-public class UtilisateurAuthDTO {
+public class UtilisateurDTO {
     private Long utilisateurID;
     private String nomUtilisateur;
     private String prenomsUtilisateur;

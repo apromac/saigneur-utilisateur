@@ -94,4 +94,29 @@ public class OccuperServiceImpl implements OccuperService {
 
         return occuper;
     }
+
+    /**
+     *
+     * @param utilisateur
+     * @param poste
+     * @return
+     */
+    public OccuperEntity saveOccuper(UtilisateurEntity utilisateur, PosteEntity poste) {
+        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurAndPoste(utilisateur, poste);
+        if (occuperEntity != null)
+            throw new RuntimeException("Désolé, Cet utilisateur a deja occupé se poste");
+
+        OccuperEntity occuper = new OccuperEntity();
+        occuper.setUtilisateur(utilisateur);
+        occuper.setPoste(poste);
+        occuper.setLibelleOccuper("");
+        occuper.setDateOccuper(null);
+        occuper.setIsOccuper(true);
+
+        OccuperEntity occuperSave = occuperRepository.save(occuper);
+        if (occuperSave == null)
+            throw new RuntimeException("Désolé, nous avons rencontré un problème lors de la sauvegarde");
+
+        return occuperSave;
+    }
 }
