@@ -1,13 +1,16 @@
 package com.apromac.saigneur.controller;
 
+import com.apromac.saigneur.dto.UtilisateurAuthDTO;
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.UtilisateurService;
+import com.apromac.saigneur.utility.AuthentificateRequest;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +46,14 @@ public class UtilisateurController {
         UtilisateurEntity utilisateur = posteOccuperActif.getUtilisateur();
 
         return new ResponseEntity<>(utilisateur, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Méthode permettant à un utilisateur de s'authentifier et de recupérer toutes informations sur l'utilisateur connecté")
+    @PostMapping(value = "/utilisateur/auth")
+    public ResponseEntity<UtilisateurAuthDTO> authentification(@Validated @RequestBody AuthentificateRequest authentificateRequest) {
+        UtilisateurAuthDTO utilisateurAuth = utilisateurService.authentification(authentificateRequest.getUsername(), authentificateRequest.getPassword());
+
+        return new ResponseEntity<>(utilisateurAuth, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un utilisateur")
