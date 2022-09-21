@@ -1,8 +1,6 @@
 package com.apromac.saigneur.controller;
 
-import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
-import com.apromac.saigneur.service.ProfilService;
 import com.apromac.saigneur.service.UtilisateurService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +17,6 @@ public class UtilisateurController {
 
     @Autowired
     private UtilisateurService utilisateurService;
-
-    @Autowired
-    private ProfilService profilService;
 
 
     @ApiOperation(value = "Méthode permettant de récupérer un utilisateur grace à son ID")
@@ -46,14 +41,6 @@ public class UtilisateurController {
         List<UtilisateurEntity> utilisateurs = utilisateurService.findAllUtilisateur();
 
         return new ResponseEntity<>(utilisateurs, HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs grace à l'ID du profil")
-    @GetMapping(value = "/utilisateur/findByProfil/{profilID}")
-    public ResponseEntity<List<UtilisateurEntity>> recupererUtilisateurParProfil(@PathVariable long profilID) {
-        List<UtilisateurEntity> profilUtilisateurs = utilisateurService.findByProfil(profilID);
-
-        return new ResponseEntity<>(profilUtilisateurs, HttpStatus.OK);
     }
 
 }

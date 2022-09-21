@@ -18,12 +18,22 @@ public class PosteController {
     @Autowired
     private PosteService posteService;
 
+
+
     @ApiOperation(value = "Méthode permettant de récupérer un poste grace à son ID")
     @GetMapping(value = "/poste/findByPosteID/{posteID}")
     public ResponseEntity<PosteEntity> recupererUnPoste(@PathVariable long posteID) {
         PosteEntity poste = posteService.findByPosteID(posteID);
 
         return new ResponseEntity<>(poste, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des postes d'un profil grace à son ID")
+    @GetMapping(value = "/poste/findByProfil/{profilID}")
+    public ResponseEntity<List<PosteEntity>> recupererPosteParProfil(@PathVariable long profilID) {
+        List<PosteEntity> profilPostes = posteService.findByProfil(profilID);
+
+        return new ResponseEntity<>(profilPostes, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste")

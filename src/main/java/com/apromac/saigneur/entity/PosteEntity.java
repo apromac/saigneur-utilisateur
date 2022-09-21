@@ -18,4 +18,8 @@ public class PosteEntity {
     @Column(name = "lib_poste", nullable = false)
     private String libellePoste;
 
+    @ManyToOne
+    @JoinColumn(name = "code_profil", nullable = false)
+    private ProfilEntity profil;
+
 }

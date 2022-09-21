@@ -1,10 +1,7 @@
 package com.apromac.saigneur.serviceimpl;
 
-import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
-import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
-import com.apromac.saigneur.repository.ProfilRepository;
 import com.apromac.saigneur.repository.UtilisateurRepository;
 import com.apromac.saigneur.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +16,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
-    @Autowired
-    private ProfilRepository profilRepository;
 
     /**
      *
@@ -30,7 +25,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public UtilisateurEntity findByUtilisateurID(Long utilisateurID) {
         Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
-
         if (!utilisateurOptional.isPresent())
             throw new NotFoundException("Désolé, le utilisateur désignée n'existe pas");
 
@@ -57,27 +51,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public List<UtilisateurEntity> findAllUtilisateur() {
         List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
-
         if (utilisateurs.isEmpty())
             throw new NotFoundException("Désolé, aucun utilisateur disponible");
-
-        return utilisateurs;
-    }
-
-    /**
-     *
-     * @param profilID
-     * @return
-     */
-    @Override
-    public List<UtilisateurEntity> findByProfil(Long profilID) {
-        Optional<ProfilEntity> profilOptional = profilRepository.findById(profilID);
-        if (!profilOptional.isPresent())
-            throw new NotFoundException("Désolé, ce profil n'existe pas");
-
-        List<UtilisateurEntity> utilisateurs = utilisateurRepository.findByProfil(profilOptional.get());
-        if (utilisateurs.isEmpty())
-            throw new NoContentException("Désolé, aucun utilisateur disponible");
 
         return utilisateurs;
     }

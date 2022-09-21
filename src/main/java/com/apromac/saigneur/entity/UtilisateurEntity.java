@@ -30,8 +30,4 @@ public class UtilisateurEntity {
     @Column(name = "photo_utilisateur", nullable = true)
     private String photoUtilisateur;
 
-    @ManyToOne
-    @JoinColumn(name = "code_profil", nullable = false)
-    private ProfilEntity profil;
-
 }
