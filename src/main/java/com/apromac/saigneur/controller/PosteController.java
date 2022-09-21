@@ -1,6 +1,7 @@
 package com.apromac.saigneur.controller;
 
 import com.apromac.saigneur.entity.PosteEntity;
+import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.PosteService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class PosteController {
     @Autowired
     private PosteService posteService;
 
+    @Autowired
+    private OccuperService occuperService;
 
 
     @ApiOperation(value = "Méthode permettant de récupérer un poste grace à son ID")

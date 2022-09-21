@@ -1,6 +1,8 @@
 package com.apromac.saigneur.controller;
 
+import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
+import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.UtilisateurService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,27 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurService utilisateurService;
 
+    @Autowired
+    private OccuperService occuperService;
+
+
 
     @ApiOperation(value = "Méthode permettant de récupérer un utilisateur grace à son ID")
     @GetMapping(value = "/utilisateur/findByUtilisateurID/{utilisateurID}")
     public ResponseEntity<UtilisateurEntity> recupererUnUtilisateur(@PathVariable long utilisateurID) {
         UtilisateurEntity utilisateur = utilisateurService.findByUtilisateurID(utilisateurID);
+
+        return new ResponseEntity<>(utilisateur, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Méthode permettant de récupérer l'utilisateur grace à l'ID du poste")
+    @GetMapping(value = "/utilisateur/occuper/findByPoste/{posteID}")
+    public ResponseEntity<UtilisateurEntity> recupererUtilisateurParPoste(@PathVariable long posteID) {
+        OccuperEntity posteOccuperActif = occuperService.findByPosteAndIsOccuper(posteID, true);
+        if (posteOccuperActif == null)
+            throw new RuntimeException("Désolé, ce poste n'a pas d'occupant");
+
+        UtilisateurEntity utilisateur = posteOccuperActif.getUtilisateur();
 
         return new ResponseEntity<>(utilisateur, HttpStatus.OK);
     }
