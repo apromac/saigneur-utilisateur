@@ -85,7 +85,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public List<UtilisateurDTO> utilisateurDetails() {
         List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
         if (utilisateurs.isEmpty())
-            throw new RuntimeException("");
+            throw new RuntimeException("Désolé, la liste utilisateur est vide.");
 
         List<UtilisateurDTO> utilisateurDetails = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             OccuperEntity utilisateurPosteOccuper = occuperRepository.findByUtilisateurAndIsOccuper(utilisateur, true);
             if (utilisateurPosteOccuper == null)
-                throw new RuntimeException("");
+                throw new RuntimeException("Désolé, nous ne parvenons pas à satisfaire votre demande. Reéssayez");
 
             utilisateurDTO.setUtilisateurID(utilisateurPosteOccuper.getUtilisateur().getUtilisateurID());
             utilisateurDTO.setNomUtilisateur(utilisateurPosteOccuper.getUtilisateur().getNomUtilisateur());
