@@ -18,7 +18,7 @@ public class OccuperController {
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste occupé par un utilisateur")
     @PostMapping(value = "/occuper/saveOccuper")
-    public ResponseEntity<OccuperEntity> sauvegarderUnPosteOccuper(@PathVariable Long utilisateurID, @PathVariable Long posteID) {
+    public ResponseEntity<OccuperEntity> sauvegarderUnPosteOccuper(@RequestParam Long utilisateurID, Long posteID) {
         OccuperEntity occuperSave = occuperService.saveOccuper(utilisateurID, posteID);
 
         return new ResponseEntity<>(occuperSave, HttpStatus.CREATED);
