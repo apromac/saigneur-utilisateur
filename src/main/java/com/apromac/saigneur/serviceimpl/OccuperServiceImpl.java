@@ -58,7 +58,7 @@ public class OccuperServiceImpl implements OccuperService {
         if (!utilisateurOptional.isPresent())
             throw new NotFoundException("Désolé, ce utilisateur n'existe pas");
 
-        OccuperEntity occuper = occuperRepository.findByUtilisateurAndIsOccuper(utilisateurOptional.get(), isActif);
+        OccuperEntity occuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get(), isActif);
         if (occuper == null)
             throw new NoContentException("Désolé, aucun poste occupé disponible");
 
@@ -95,28 +95,56 @@ public class OccuperServiceImpl implements OccuperService {
         return occuper;
     }
 
+//    /**
+//     *
+//     * @param utilisateur
+//     * @param poste
+//     * @return
+//     */
+//    public OccuperEntity saveOccuper(UtilisateurEntity utilisateur, PosteEntity poste) {
+//        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurAndPoste(utilisateur, poste);
+//        if (occuperEntity != null)
+//            throw new RuntimeException("Désolé, Cet utilisateur a deja occupé se poste");
+//
+//        OccuperEntity occuper = new OccuperEntity();
+//        occuper.setUtilisateur(utilisateur);
+//        occuper.setPoste(poste);
+//        occuper.setLibelleOccuper("");
+//        occuper.setDateOccuper(null);
+//        occuper.setIsOccuper(true);
+//
+//        OccuperEntity occuperSave = occuperRepository.save(occuper);
+//        if (occuperSave == null)
+//            throw new RuntimeException("Désolé, nous avons rencontré un problème lors de la sauvegarde");
+//
+//        return occuperSave;
+//    }
+
     /**
      *
-     * @param utilisateur
-     * @param poste
+     * @param utilisateurID
+     * @param posteID
      * @return
      */
-    public OccuperEntity saveOccuper(UtilisateurEntity utilisateur, PosteEntity poste) {
-        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurAndPoste(utilisateur, poste);
-        if (occuperEntity != null)
-            throw new RuntimeException("Désolé, Cet utilisateur a deja occupé se poste");
+    public OccuperEntity saveOccuper(Long utilisateurID, Long posteID) {
+        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
+        if (!utilisateurOptional.isPresent())
+            throw new NotFoundException("Désolé, aucun utilisateur identifié");
+
+        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
+        if (!posteOptional.isPresent())
+            throw new NotFoundException("Désolé, aucun poste identifié");
 
         OccuperEntity occuper = new OccuperEntity();
-        occuper.setUtilisateur(utilisateur);
-        occuper.setPoste(poste);
+        occuper.setUtilisateur(utilisateurOptional.get());
+        occuper.setPoste(posteOptional.get());
         occuper.setLibelleOccuper("");
         occuper.setDateOccuper(null);
         occuper.setIsOccuper(true);
 
-        OccuperEntity occuperSave = occuperRepository.save(occuper);
-        if (occuperSave == null)
-            throw new RuntimeException("Désolé, nous avons rencontré un problème lors de la sauvegarde");
+        OccuperEntity saveOccuper = occuperRepository.save(occuper);
 
-        return occuperSave;
+        return saveOccuper;
     }
+
 }

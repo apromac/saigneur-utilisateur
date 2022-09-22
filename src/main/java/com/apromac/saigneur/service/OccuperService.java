@@ -9,4 +9,5 @@ public interface OccuperService {
     public OccuperEntity findByUtilisateurAndIsOccuper(Long utilisateurID, Boolean isActif);
     public List<OccuperEntity> findByPoste(Long posteID);
     public OccuperEntity findByPosteAndIsOccuper(Long posteID, Boolean isActif);
+    public OccuperEntity saveOccuper(Long utilisateurID, Long posteID);
 }

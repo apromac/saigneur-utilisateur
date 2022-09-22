@@ -61,7 +61,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if (utilisateurAuthentifier == null)
             throw new RuntimeException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
 
-        OccuperEntity posteUtilisateur = occuperRepository.findByUtilisateurAndIsOccuper(utilisateurAuthentifier, true);
+        OccuperEntity posteUtilisateur = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier, true);
         if (posteUtilisateur == null)
             throw new RuntimeException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
 
@@ -92,7 +92,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         for (UtilisateurEntity utilisateur: utilisateurs) {
             UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
 
-            OccuperEntity utilisateurPosteOccuper = occuperRepository.findByUtilisateurAndIsOccuper(utilisateur, true);
+            OccuperEntity utilisateurPosteOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateur, true);
             if (utilisateurPosteOccuper == null)
                 throw new RuntimeException("Désolé, nous ne parvenons pas à satisfaire votre demande. Reéssayez");
 
