@@ -58,7 +58,7 @@ public class OccuperServiceImpl implements OccuperService {
         if (!utilisateurOptional.isPresent())
             throw new NotFoundException("Désolé, ce utilisateur n'existe pas");
 
-        OccuperEntity occuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get(), isActif);
+        OccuperEntity occuper = occuperRepository.findByUtilisateurAndIsOccuper(utilisateurOptional.get(), isActif);
         if (occuper == null)
             throw new NoContentException("Désolé, aucun poste occupé disponible");
 
@@ -129,16 +129,16 @@ public class OccuperServiceImpl implements OccuperService {
     public OccuperEntity saveOccuper(Long utilisateurID, Long posteID) {
         Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
         if (!utilisateurOptional.isPresent())
-            throw new NotFoundException("Désolé, aucun utilisateur identifié");
+            throw new NotFoundException("Désolé, aucun utilisateur trouvé à partir de l'ID");
 
         Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
         if (!posteOptional.isPresent())
-            throw new NotFoundException("Désolé, aucun poste identifié");
+            throw new NotFoundException("Désolé, aucun poste trouvé à partie de l'ID");
 
         OccuperEntity occuper = new OccuperEntity();
         occuper.setUtilisateur(utilisateurOptional.get());
         occuper.setPoste(posteOptional.get());
-        occuper.setLibelleOccuper("");
+        occuper.setLibelleOccuper("a");
         occuper.setDateOccuper(null);
         occuper.setIsOccuper(true);
 
