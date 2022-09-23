@@ -92,32 +92,32 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         for (UtilisateurEntity utilisateur: utilisateurs) {
             UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
 
-//            OccuperEntity utilisateurPosteOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateur);
-//            if (utilisateurPosteOccuper == null) {
-//                throw new RuntimeException("Désolé, nous ne parvenons pas à satisfaire votre demande. Reéssayez");
-//            }
-
             List<OccuperEntity> occuperEntityList = occuperRepository.findByUtilisateur(utilisateur);
-            if (occuperEntityList.isEmpty())
-                continue;
-//                throw new RuntimeException("Désolé, cet utilisateur n'a jamain obtenu de poste.");
-
-            for (OccuperEntity occuperEntity: occuperEntityList) {
-                if (occuperEntity.getIsOccuper()) {
-                    utilisateurDTO.setUtilisateurID(occuperEntity.getUtilisateur().getUtilisateurID());
-                    utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
-                    utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
-                    utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
-                    utilisateurDTO.setPassword(occuperEntity.getUtilisateur().getPassword());
-                    utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
-                    utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
-                    utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+            if (occuperEntityList.isEmpty()) {
+                utilisateurDTO.setUtilisateurID(utilisateur.getUtilisateurID());
+                utilisateurDTO.setNomUtilisateur(utilisateur.getNomUtilisateur());
+                utilisateurDTO.setPrenomsUtilisateur(utilisateur.getPrenomsUtilisateur());
+                utilisateurDTO.setUsername(utilisateur.getUsername());
+                utilisateurDTO.setPassword(utilisateur.getPassword());
+                utilisateurDTO.setPhotoUtilisateur(utilisateur.getPhotoUtilisateur());
+                utilisateurDTO.setPosteActuel("");
+                utilisateurDTO.setProfilActuel("");
+            } else {
+                for (OccuperEntity occuperEntity: occuperEntityList) {
+                    if (occuperEntity.getIsOccuper()) {
+                        utilisateurDTO.setUtilisateurID(occuperEntity.getUtilisateur().getUtilisateurID());
+                        utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
+                        utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
+                        utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
+                        utilisateurDTO.setPassword(occuperEntity.getUtilisateur().getPassword());
+                        utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
+                        utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
+                        utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+                    }
                 }
-
             }
 
             utilisateurDetails.add(utilisateurDTO);
-
         }
 
         return utilisateurDetails;
@@ -137,3 +137,49 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 }
+
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public List<UtilisateurDTO> utilisateurDetails() {
+//        List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
+//        if (utilisateurs.isEmpty())
+//            throw new RuntimeException("Désolé, la liste utilisateur est vide.");
+//
+//        List<UtilisateurDTO> utilisateurDetails = new ArrayList<>();
+//
+//        for (UtilisateurEntity utilisateur: utilisateurs) {
+//            UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
+//
+////            OccuperEntity utilisateurPosteOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateur);
+////            if (utilisateurPosteOccuper == null) {
+////                throw new RuntimeException("Désolé, nous ne parvenons pas à satisfaire votre demande. Reéssayez");
+////            }
+//
+//            List<OccuperEntity> occuperEntityList = occuperRepository.findByUtilisateur(utilisateur);
+//            if (occuperEntityList.isEmpty())
+//                continue;
+////                throw new RuntimeException("Désolé, cet utilisateur n'a jamain obtenu de poste.");
+//
+//            for (OccuperEntity occuperEntity: occuperEntityList) {
+//                if (occuperEntity.getIsOccuper()) {
+//                    utilisateurDTO.setUtilisateurID(occuperEntity.getUtilisateur().getUtilisateurID());
+//                    utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
+//                    utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
+//                    utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
+//                    utilisateurDTO.setPassword(occuperEntity.getUtilisateur().getPassword());
+//                    utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
+//                    utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
+//                    utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+//                }
+//
+//            }
+//
+//            utilisateurDetails.add(utilisateurDTO);
+//
+//        }
+//
+//        return utilisateurDetails;
+//    }
