@@ -11,11 +11,16 @@ import java.util.List;
 @Repository
 public interface OccuperRepository extends JpaRepository<OccuperEntity, Long> {
     public List<OccuperEntity> findByUtilisateur(UtilisateurEntity utilisateur);
+    public OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
+
+
+
+
+
 
 //    @Query("SELECT o FROM OccuperEntity o WHERE o.utilisateur.utilisateurID = :utilisateurID AND o.isOccuper = :isActif")
 //    public OccuperEntity findByUtilisateurAndOccuperIsTrue(@Param("utilisateurID") Long utilisateurID, @Param("isOccuper") Boolean isActif);
 
-    public OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
     public List<OccuperEntity> findByPoste(PosteEntity poste);
     public OccuperEntity findByPosteAndIsOccuper(PosteEntity poste, Boolean isActif);
     public OccuperEntity findByUtilisateurAndPoste(UtilisateurEntity utilisateur, PosteEntity poste);

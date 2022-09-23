@@ -27,6 +27,39 @@ public class UtilisateurController {
     private OccuperService occuperService;
 
 
+    @ApiOperation(value = "Méthode permettant de sauvegarder un utilisateur")
+    @PostMapping(value = "/utilisateur/saveUtilisateur")
+    public ResponseEntity<UtilisateurEntity> sauvegarderUnUtilisateur(@RequestBody UtilisateurEntity utilisateur) {
+        UtilisateurEntity utilisateurSave = utilisateurService.saveUtilisateur(utilisateur);
+
+        return new ResponseEntity<>(utilisateurSave, HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs avec plus de details")
+    @GetMapping(value = "/utilisateur/findUtilisateurDetails")
+    public ResponseEntity<List<UtilisateurDTO>> recupererUtilisateurDetails() {
+        List<UtilisateurDTO> utilisateurDetails = utilisateurService.utilisateurDetails();
+
+        return new ResponseEntity<>(utilisateurDetails, HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @ApiOperation(value = "Méthode permettant de récupérer un utilisateur grace à son ID")
     @GetMapping(value = "/utilisateur/findByUtilisateurID/{utilisateurID}")
@@ -56,21 +89,9 @@ public class UtilisateurController {
         return new ResponseEntity<>(utilisateurAuth, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs avec plus de details")
-    @GetMapping(value = "/utilisateur/findUtilisateurDetails")
-    public ResponseEntity<List<UtilisateurDTO>> recupererUtilisateurDetails() {
-        List<UtilisateurDTO> utilisateurDetails = utilisateurService.utilisateurDetails();
 
-        return new ResponseEntity<>(utilisateurDetails, HttpStatus.OK);
-    }
 
-    @ApiOperation(value = "Méthode permettant de sauvegarder un utilisateur")
-    @PostMapping(value = "/utilisateur/saveUtilisateur")
-    public ResponseEntity<UtilisateurEntity> sauvegarderUnUtilisateur(@RequestBody UtilisateurEntity utilisateur) {
-        UtilisateurEntity utilisateurSave = utilisateurService.saveUtilisateur(utilisateur);
 
-        return new ResponseEntity<>(utilisateurSave, HttpStatus.CREATED);
-    }
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs")
     @GetMapping(value = "/utilisateur/findAllUtilisateur")

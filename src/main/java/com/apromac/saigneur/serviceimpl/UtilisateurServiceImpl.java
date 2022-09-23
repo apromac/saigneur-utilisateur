@@ -23,19 +23,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Autowired
     private OccuperRepository occuperRepository;
 
-    /**
-     *
-     * @param utilisateurID
-     * @return
-     */
-    @Override
-    public UtilisateurEntity findByUtilisateurID(Long utilisateurID) {
-        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
-        if (!utilisateurOptional.isPresent())
-            throw new NotFoundException("Désolé, l'utilisateur désigné n'existe pas");
-
-        return utilisateurOptional.get();
-    }
 
     /**
      *
@@ -48,34 +35,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             throw new RuntimeException("Une erreur est survenu lors de la sauvegarde de l'utilisateur.");
 
         return utilisateurSave;
-    }
-
-    /**
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    public UtilisateurDTO authentification(String username, String password) {
-        UtilisateurEntity utilisateurAuthentifier = utilisateurRepository.findByUsernameAndPassword(username, password);
-        if (utilisateurAuthentifier == null)
-            throw new RuntimeException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
-
-        OccuperEntity posteUtilisateur = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
-        if (posteUtilisateur == null)
-            throw new RuntimeException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
-
-        UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
-        utilisateurDTO.setUtilisateurID(posteUtilisateur.getUtilisateur().getUtilisateurID());
-        utilisateurDTO.setNomUtilisateur(posteUtilisateur.getUtilisateur().getNomUtilisateur());
-        utilisateurDTO.setPrenomsUtilisateur(posteUtilisateur.getUtilisateur().getPrenomsUtilisateur());
-        utilisateurDTO.setUsername(posteUtilisateur.getUtilisateur().getUsername());
-        utilisateurDTO.setPassword(posteUtilisateur.getUtilisateur().getPassword());
-        utilisateurDTO.setPhotoUtilisateur(posteUtilisateur.getUtilisateur().getPhotoUtilisateur());
-        utilisateurDTO.setPosteActuel(posteUtilisateur.getPoste().getLibellePoste());
-        utilisateurDTO.setProfilActuel(posteUtilisateur.getPoste().getProfil().getLibelleProfil());
-
-        return utilisateurDTO;
     }
 
     /**
@@ -122,6 +81,89 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         return utilisateurDetails;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     *
+     * @param utilisateurID
+     * @return
+     */
+    @Override
+    public UtilisateurEntity findByUtilisateurID(Long utilisateurID) {
+        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
+        if (!utilisateurOptional.isPresent())
+            throw new NotFoundException("Désolé, l'utilisateur désigné n'existe pas");
+
+        return utilisateurOptional.get();
+    }
+
+
+
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public UtilisateurDTO authentification(String username, String password) {
+        UtilisateurEntity utilisateurAuthentifier = utilisateurRepository.findByUsernameAndPassword(username, password);
+        if (utilisateurAuthentifier == null)
+            throw new RuntimeException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
+
+        OccuperEntity posteUtilisateur = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
+        if (posteUtilisateur == null)
+            throw new RuntimeException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
+
+        UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
+        utilisateurDTO.setUtilisateurID(posteUtilisateur.getUtilisateur().getUtilisateurID());
+        utilisateurDTO.setNomUtilisateur(posteUtilisateur.getUtilisateur().getNomUtilisateur());
+        utilisateurDTO.setPrenomsUtilisateur(posteUtilisateur.getUtilisateur().getPrenomsUtilisateur());
+        utilisateurDTO.setUsername(posteUtilisateur.getUtilisateur().getUsername());
+        utilisateurDTO.setPassword(posteUtilisateur.getUtilisateur().getPassword());
+        utilisateurDTO.setPhotoUtilisateur(posteUtilisateur.getUtilisateur().getPhotoUtilisateur());
+        utilisateurDTO.setPosteActuel(posteUtilisateur.getPoste().getLibellePoste());
+        utilisateurDTO.setProfilActuel(posteUtilisateur.getPoste().getProfil().getLibelleProfil());
+
+        return utilisateurDTO;
+    }
+
+
 
     /**
      *
