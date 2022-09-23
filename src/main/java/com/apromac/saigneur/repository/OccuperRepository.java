@@ -4,8 +4,6 @@ import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,10 +12,10 @@ import java.util.List;
 public interface OccuperRepository extends JpaRepository<OccuperEntity, Long> {
     public List<OccuperEntity> findByUtilisateur(UtilisateurEntity utilisateur);
 
-    @Query("SELECT o FROM OccuperEntity o WHERE o.utilisateur.utilisateurID = :utilisateurID AND o.isOccuper = :isActif")
-    public OccuperEntity findByUtilisateurAndOccuperIsTrue(@Param("utilisateurID") Long utilisateurID, @Param("isOccuper") Boolean isActif);
+//    @Query("SELECT o FROM OccuperEntity o WHERE o.utilisateur.utilisateurID = :utilisateurID AND o.isOccuper = :isActif")
+//    public OccuperEntity findByUtilisateurAndOccuperIsTrue(@Param("utilisateurID") Long utilisateurID, @Param("isOccuper") Boolean isActif);
 
-//    public OccuperEntity findByUtilisateurAndIsOccuperTrue(@Param("utilisateurID") Long utilisateurID, @Param("isOccuper") Boolean isActif);
+    public OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
 
     public List<OccuperEntity> findByPoste(PosteEntity poste);
     public OccuperEntity findByPosteAndIsOccuper(PosteEntity poste, Boolean isActif);

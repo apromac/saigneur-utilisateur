@@ -58,7 +58,7 @@ public class OccuperServiceImpl implements OccuperService {
         if (!utilisateurOptional.isPresent())
             throw new NotFoundException("Désolé, ce utilisateur n'existe pas");
 
-        OccuperEntity occuper = occuperRepository.findByUtilisateurAndOccuperIsTrue(utilisateurID, isActif);
+        OccuperEntity occuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get());
         if (occuper == null)
             throw new NoContentException("Désolé, aucun poste occupé disponible");
 
