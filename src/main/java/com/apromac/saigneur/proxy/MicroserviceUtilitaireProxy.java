@@ -15,6 +15,9 @@ public interface MicroserviceUtilitaireProxy {
     @GetMapping("/api/v1/district/findAllDistrict")
     ResponseEntity<DistrictBean> recupererDistricts();
 
+    @GetMapping("/zone/findByZoneID/{zoneID}")
+    ZoneBean recupererUneZone(@PathVariable long zoneID);
+
     @GetMapping(value = "/api/v1/zone/findByDistrict/{districtID}")
     public ResponseEntity<List<ZoneBean>> recupererZoneParDistrict(@PathVariable long districtID);
 

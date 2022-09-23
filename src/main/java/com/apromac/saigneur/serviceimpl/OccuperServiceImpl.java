@@ -1,15 +1,19 @@
 package com.apromac.saigneur.serviceimpl;
 
+import com.apromac.saigneur.bean.DistrictBean;
+import com.apromac.saigneur.bean.ZoneBean;
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
+import com.apromac.saigneur.proxy.MicroserviceUtilitaireProxy;
 import com.apromac.saigneur.repository.OccuperRepository;
 import com.apromac.saigneur.repository.PosteRepository;
 import com.apromac.saigneur.repository.UtilisateurRepository;
 import com.apromac.saigneur.service.OccuperService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +30,9 @@ public class OccuperServiceImpl implements OccuperService {
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+    
+    @Autowired
+    private MicroserviceUtilitaireProxy microserviceUtilitaireProxy;
 
 
     /**
@@ -135,16 +142,49 @@ public class OccuperServiceImpl implements OccuperService {
         if (!posteOptional.isPresent())
             throw new NotFoundException("Désolé, aucun poste trouvé à partie de l'ID");
 
-        OccuperEntity occuper = new OccuperEntity();
-        occuper.setUtilisateur(utilisateurOptional.get());
-        occuper.setPoste(posteOptional.get());
-        occuper.setLibelleOccuper("a");
-        occuper.setDateOccuper(null);
-        occuper.setIsOccuper(true);
-
-        OccuperEntity saveOccuper = occuperRepository.save(occuper);
+        OccuperEntity occuperEntity = buildZoneUtilisateur(utilisateurOptional.get(), posteOptional.get());
+        OccuperEntity saveOccuper = occuperRepository.save(occuperEntity);
 
         return saveOccuper;
     }
 
+    /**
+     *
+     * @param utilisateurEntity
+     * @param posteEntity
+     * @return
+     */
+    public OccuperEntity buildZoneUtilisateur(UtilisateurEntity utilisateurEntity, PosteEntity posteEntity) {
+
+        OccuperEntity occuperEntity = new OccuperEntity();
+        occuperEntity.setUtilisateur(utilisateurEntity);
+        occuperEntity.setPoste(posteEntity);
+        occuperEntity.setLibelleOccuper("a");
+        occuperEntity.setDateOccuper(null);
+        occuperEntity.setIsOccuper(true);
+
+        switch (posteEntity.getProfil().getLibelleProfil()) {
+            case "ADMIN":
+                break;
+
+            case "COORDINATEUR":
+                break;
+
+            case "SECRETAIRE":
+                break;
+
+            case "TDH":
+                ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(posteEntity.getPosteID());
+                if (zoneBeanResponseEntity == null)
+                    throw new RuntimeException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
+
+                occuperEntity.setZoneOccuper(zoneBeanResponseEntity.getLibelleZone());
+                occuperEntity.setDistrictOccuper(zoneBeanResponseEntity.getDistrict().getLibelleDistrict());
+                break;
+
+            default:
+        }
+
+        return occuperEntity;
+    }
 }

@@ -25,11 +25,11 @@ public class OccuperEntity {
     @Column(name = "actif_occuper", nullable = true)
     private Boolean isOccuper;
 
-//    @Column(name = "zone_occuper", nullable = true)
-//    private String zoneOccuper;
-//
-//    @Column(name = "district_occuper", nullable = true)
-//    private String districtOccuper;
+    @Column(name = "zone_occuper", nullable = true)
+    private String zoneOccuper;
+
+    @Column(name = "district_occuper", nullable = true)
+    private String districtOccuper;
 
     @ManyToOne
     @JoinColumn(name = "code_poste", nullable = false)
