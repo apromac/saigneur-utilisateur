@@ -16,7 +16,6 @@ public interface OccuperRepository extends JpaRepository<OccuperEntity, Long> {
 //    public OccuperEntity findByUtilisateurAndOccuperIsTrue(@Param("utilisateurID") Long utilisateurID, @Param("isOccuper") Boolean isActif);
 
     public OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
-
     public List<OccuperEntity> findByPoste(PosteEntity poste);
     public OccuperEntity findByPosteAndIsOccuper(PosteEntity poste, Boolean isActif);
     public OccuperEntity findByUtilisateurAndPoste(UtilisateurEntity utilisateur, PosteEntity poste);

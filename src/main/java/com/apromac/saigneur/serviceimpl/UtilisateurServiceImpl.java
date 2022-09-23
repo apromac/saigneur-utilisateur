@@ -92,20 +92,31 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         for (UtilisateurEntity utilisateur: utilisateurs) {
             UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
 
-            OccuperEntity utilisateurPosteOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateur);
-            if (utilisateurPosteOccuper == null)
-                throw new RuntimeException("Désolé, nous ne parvenons pas à satisfaire votre demande. Reéssayez");
+//            OccuperEntity utilisateurPosteOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateur);
+//            if (utilisateurPosteOccuper == null) {
+//                throw new RuntimeException("Désolé, nous ne parvenons pas à satisfaire votre demande. Reéssayez");
+//            }
 
-            utilisateurDTO.setUtilisateurID(utilisateurPosteOccuper.getUtilisateur().getUtilisateurID());
-            utilisateurDTO.setNomUtilisateur(utilisateurPosteOccuper.getUtilisateur().getNomUtilisateur());
-            utilisateurDTO.setPrenomsUtilisateur(utilisateurPosteOccuper.getUtilisateur().getPrenomsUtilisateur());
-            utilisateurDTO.setUsername(utilisateurPosteOccuper.getUtilisateur().getUsername());
-            utilisateurDTO.setPassword(utilisateurPosteOccuper.getUtilisateur().getPassword());
-            utilisateurDTO.setPhotoUtilisateur(utilisateurPosteOccuper.getUtilisateur().getPhotoUtilisateur());
-            utilisateurDTO.setPosteActuel(utilisateurPosteOccuper.getPoste().getLibellePoste());
-            utilisateurDTO.setProfilActuel(utilisateurPosteOccuper.getPoste().getProfil().getLibelleProfil());
+            List<OccuperEntity> occuperEntityList = occuperRepository.findByUtilisateur(utilisateur);
+            if (occuperEntityList.isEmpty())
+                throw new RuntimeException("Désolé, cet utilisateur n'a jamain obtenu de poste.");
+
+            for (OccuperEntity occuperEntity: occuperEntityList) {
+                if (occuperEntity.getIsOccuper()) {
+                    utilisateurDTO.setUtilisateurID(occuperEntity.getUtilisateur().getUtilisateurID());
+                    utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
+                    utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
+                    utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
+                    utilisateurDTO.setPassword(occuperEntity.getUtilisateur().getPassword());
+                    utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
+                    utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
+                    utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+                }
+
+            }
 
             utilisateurDetails.add(utilisateurDTO);
+
         }
 
         return utilisateurDetails;
