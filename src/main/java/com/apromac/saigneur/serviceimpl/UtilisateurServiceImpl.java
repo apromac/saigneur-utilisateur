@@ -99,7 +99,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
             List<OccuperEntity> occuperEntityList = occuperRepository.findByUtilisateur(utilisateur);
             if (occuperEntityList.isEmpty())
-                throw new RuntimeException("Désolé, cet utilisateur n'a jamain obtenu de poste.");
+                continue;
+//                throw new RuntimeException("Désolé, cet utilisateur n'a jamain obtenu de poste.");
 
             for (OccuperEntity occuperEntity: occuperEntityList) {
                 if (occuperEntity.getIsOccuper()) {
