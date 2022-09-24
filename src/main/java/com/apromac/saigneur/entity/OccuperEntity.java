@@ -16,8 +16,8 @@ public class OccuperEntity {
     @Column(name = "id_occuper", updatable = false, nullable = false)
     private Long occuperID;
 
-    @Column(name = "lib_occuper", nullable = true)
-    private String libelleOccuper;
+    @Column(name = "motif_occuper", nullable = true)
+    private String motifOccuper;
 
     @Column(name = "date_occuper", nullable = true)
     private Date dateOccuper;

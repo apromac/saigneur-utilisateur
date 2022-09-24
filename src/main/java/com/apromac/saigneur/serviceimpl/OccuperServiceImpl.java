@@ -35,64 +35,158 @@ public class OccuperServiceImpl implements OccuperService {
 
     /**
      *
-     * @param utilisateurID
-     * @param posteID
+     * @param occuperEntity
      * @return
      */
-    public OccuperEntity saveOccuper(Long utilisateurID, Long posteID) {
-        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
+    public OccuperEntity saveOccuper(OccuperEntity occuperEntity) {
+        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(occuperEntity.getUtilisateur().getUtilisateurID());
         if (!utilisateurOptional.isPresent())
             throw new NotFoundException("Désolé, aucun utilisateur trouvé à partir de l'ID");
 
-        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
+        Optional<PosteEntity> posteOptional = posteRepository.findById(occuperEntity.getPoste().getPosteID());
         if (!posteOptional.isPresent())
             throw new NotFoundException("Désolé, aucun poste trouvé à partie de l'ID");
 
-        OccuperEntity occuperEntity = buildZoneUtilisateur(utilisateurOptional.get(), posteOptional.get());
-        OccuperEntity saveOccuper = occuperRepository.save(occuperEntity);
+        OccuperEntity buildOccuper = buildZoneUtilisateur(occuperEntity);
+        OccuperEntity saveOccuper = occuperRepository.save(buildOccuper);
 
         return saveOccuper;
     }
 
     /**
      *
-     * @param utilisateurEntity
-     * @param posteEntity
+     * @param occuperEntity
      * @return
      */
-    public OccuperEntity buildZoneUtilisateur(UtilisateurEntity utilisateurEntity, PosteEntity posteEntity) {
+    public OccuperEntity buildZoneUtilisateur(OccuperEntity occuperEntity) {
 
-        OccuperEntity occuperEntity = new OccuperEntity();
-        occuperEntity.setUtilisateur(utilisateurEntity);
-        occuperEntity.setPoste(posteEntity);
-        occuperEntity.setLibelleOccuper("a");
-        occuperEntity.setDateOccuper(null);
-        occuperEntity.setIsOccuper(true);
+        OccuperEntity occuperBuild = new OccuperEntity();
+        occuperBuild.setUtilisateur(occuperEntity.getUtilisateur());
+        occuperBuild.setPoste(occuperEntity.getPoste());
+        occuperBuild.setMotifOccuper(occuperEntity.getMotifOccuper());
+        occuperBuild.setDateOccuper(occuperEntity.getDateOccuper());
+        occuperBuild.setIsOccuper(true);
 
-        switch (posteEntity.getProfil().getLibelleProfil()) {
+        switch (occuperEntity.getPoste().getProfil().getLibelleProfil()) {
             case "ADMIN":
-                break;
-
-            case "COORDINATEUR":
-                break;
-
-            case "SECRETAIRE":
+                occuperBuild.setZoneOccuper("");
+                occuperBuild.setDistrictOccuper("");
                 break;
 
             case "TDH":
-                ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(posteEntity.getPosteID());
+                String[] libellePosteTDH = occuperEntity.getPoste().getLibellePoste().split(" ");
+
+                ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(libellePosteTDH[1].trim());
                 if (zoneBeanResponseEntity == null)
                     throw new RuntimeException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
 
-                occuperEntity.setZoneOccuper(zoneBeanResponseEntity.getLibelleZone());
-                occuperEntity.setDistrictOccuper(zoneBeanResponseEntity.getDistrict().getLibelleDistrict());
+                occuperBuild.setZoneOccuper(zoneBeanResponseEntity.getLibelleZone());
+                occuperBuild.setDistrictOccuper(zoneBeanResponseEntity.getDistrict().getLibelleDistrict());
                 break;
 
             default:
+                String[] libellePoste = occuperEntity.getPoste().getLibellePoste().split(" ");
+
+                occuperBuild.setZoneOccuper("");
+                occuperBuild.setDistrictOccuper(libellePoste[1].trim());
+                break;
         }
 
         return occuperEntity;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    /**
+//     *
+//     * @param utilisateurID
+//     * @param posteID
+//     * @return
+//     */
+//    public OccuperEntity saveOccuper(Long utilisateurID, Long posteID) {
+//        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
+//        if (!utilisateurOptional.isPresent())
+//            throw new NotFoundException("Désolé, aucun utilisateur trouvé à partir de l'ID");
+//
+//        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
+//        if (!posteOptional.isPresent())
+//            throw new NotFoundException("Désolé, aucun poste trouvé à partie de l'ID");
+//
+//        OccuperEntity occuperEntity = buildZoneUtilisateur(utilisateurOptional.get(), posteOptional.get());
+//        OccuperEntity saveOccuper = occuperRepository.save(occuperEntity);
+//
+//        return saveOccuper;
+//    }
+
+
+
+
+//    /**
+//     *
+//     * @param utilisateurEntity
+//     * @param posteEntity
+//     * @return
+//     */
+//    public OccuperEntity buildZoneUtilisateur(UtilisateurEntity utilisateurEntity, PosteEntity posteEntity) {
+//
+//        OccuperEntity occuperEntity = new OccuperEntity();
+//        occuperEntity.setUtilisateur(utilisateurEntity);
+//        occuperEntity.setPoste(posteEntity);
+//        occuperEntity.setLibelleOccuper("a");
+//        occuperEntity.setDateOccuper(null);
+//        occuperEntity.setIsOccuper(true);
+//
+//        switch (posteEntity.getProfil().getLibelleProfil()) {
+//            case "ADMIN":
+//                occuperEntity.setZoneOccuper("");
+//                occuperEntity.setDistrictOccuper("");
+//                break;
+//
+//            case "COORDINATEUR":
+//                String[] libellePosteCoordinateur = posteEntity.getLibellePoste().split(" ");
+//
+//                occuperEntity.setZoneOccuper("");
+//                occuperEntity.setDistrictOccuper(libellePosteCoordinateur[1].trim());
+//                break;
+//
+//            case "SECRETAIRE":
+//                String[] libellePosteSecretaire = posteEntity.getLibellePoste().split(" ");
+//
+//                occuperEntity.setZoneOccuper("");
+//                occuperEntity.setDistrictOccuper(libellePosteSecretaire[1].trim());
+//                break;
+//
+//            case "TDH":
+////                ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(posteEntity.getPosteID());
+//                String[] libellePosteTDH = posteEntity.getLibellePoste().split(" ");
+//
+//                ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(libellePosteTDH[1].trim());
+//                if (zoneBeanResponseEntity == null)
+//                    throw new RuntimeException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
+//
+//                occuperEntity.setZoneOccuper(zoneBeanResponseEntity.getLibelleZone());
+//                occuperEntity.setDistrictOccuper(zoneBeanResponseEntity.getDistrict().getLibelleDistrict());
+//                break;
+//
+//            default:
+//        }
+//
+//        return occuperEntity;
+//    }
 
 
 
