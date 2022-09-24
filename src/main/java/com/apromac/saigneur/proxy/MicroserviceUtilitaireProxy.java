@@ -6,7 +6,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface MicroserviceUtilitaireProxy {
     @GetMapping("/api/v1/zone/findByZoneID/{zoneID}")
     ZoneBean recupererUneZone(@PathVariable long zoneID);
 
-    @GetMapping(value = "/zone/findByLibelleZone/{libelleZone}")
+    @GetMapping("/api/v1/zone/findByLibelleZone/{libelleZone}")
     ZoneBean recupererUneZone(@PathVariable String libelleZone);
 
 
