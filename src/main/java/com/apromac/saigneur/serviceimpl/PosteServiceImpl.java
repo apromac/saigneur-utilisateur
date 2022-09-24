@@ -1,9 +1,12 @@
 package com.apromac.saigneur.serviceimpl;
 
+import com.apromac.saigneur.bean.ZoneBean;
+import com.apromac.saigneur.dto.PosteDTO;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
+import com.apromac.saigneur.proxy.MicroserviceUtilitaireProxy;
 import com.apromac.saigneur.repository.PosteRepository;
 import com.apromac.saigneur.repository.ProfilRepository;
 import com.apromac.saigneur.service.PosteService;
@@ -21,6 +24,86 @@ public class PosteServiceImpl implements PosteService {
 
     @Autowired
     private ProfilRepository profilRepository;
+
+    @Autowired
+    private MicroserviceUtilitaireProxy microserviceUtilitaireProxy;
+
+
+
+    /**
+     *
+     * @param posteID
+     * @return
+     */
+    public PosteDTO findByPosteDTO(Long posteID) {
+        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
+        if (!posteOptional.isPresent())
+            throw new NotFoundException("Désolé, le poste désignée n'existe pas");
+
+        PosteDTO posteDTO = new PosteDTO();
+        posteDTO.setPosteID(posteOptional.get().getPosteID());
+        posteDTO.setLibellePoste(posteOptional.get().getLibellePoste());
+        posteDTO.setProfil(posteOptional.get().getProfil());
+
+        switch (posteOptional.get().getProfil().getLibelleProfil()) {
+            case "ADMIN":
+                posteDTO.setZoneBean("");
+                posteDTO.setDistrictBean("");
+                break;
+
+            case "TDH":
+                String[] libellePosteTDH = posteOptional.get().getLibellePoste().split(" ");
+
+                ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(libellePosteTDH[1].trim());
+                if (zoneBeanResponseEntity == null)
+                    throw new RuntimeException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
+
+                posteDTO.setZoneBean(zoneBeanResponseEntity.getLibelleZone());
+                posteDTO.setDistrictBean(zoneBeanResponseEntity.getDistrict().getLibelleDistrict());
+                break;
+
+            default:
+                String[] libellePoste = posteOptional.get().getLibellePoste().split(" ");
+
+                posteDTO.setZoneBean("");
+                posteDTO.setDistrictBean(libellePoste[1].trim());
+                break;
+        }
+
+        return posteDTO;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**

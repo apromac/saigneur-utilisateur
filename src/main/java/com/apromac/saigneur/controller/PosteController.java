@@ -1,5 +1,6 @@
 package com.apromac.saigneur.controller;
 
+import com.apromac.saigneur.dto.PosteDTO;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.PosteService;
@@ -31,6 +32,49 @@ public class PosteController {
         return new ResponseEntity<>(poste, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des postes")
+    @GetMapping(value = "/poste/findAllPoste")
+    public ResponseEntity<List<PosteEntity>> recupererPostes() {
+        List<PosteEntity> postes = posteService.findAllPoste();
+
+        return new ResponseEntity<>(postes, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des postes d'un profil grace à son ID")
+    @GetMapping(value = "/poste/findByPosteDTO/{posteID}")
+    public ResponseEntity<PosteDTO> recupererPosteDTO(@PathVariable long posteID) {
+        PosteDTO posteDTO = posteService.findByPosteDTO(posteID);
+
+        return new ResponseEntity<>(posteDTO, HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes d'un profil grace à son ID")
     @GetMapping(value = "/poste/findByProfil/{profilID}")
     public ResponseEntity<List<PosteEntity>> recupererPosteParProfil(@PathVariable long profilID) {
@@ -47,12 +91,6 @@ public class PosteController {
         return new ResponseEntity<>(posteSave, HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des postes")
-    @GetMapping(value = "/poste/findAllPoste")
-    public ResponseEntity<List<PosteEntity>> recupererPostes() {
-        List<PosteEntity> postes = posteService.findAllPoste();
 
-        return new ResponseEntity<>(postes, HttpStatus.OK);
-    }
 
 }
