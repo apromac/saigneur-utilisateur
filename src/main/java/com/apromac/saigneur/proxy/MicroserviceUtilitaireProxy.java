@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "saigneur-utilitaire", url = "${apromac.msaigneur-utilitaire.url")
+@FeignClient(name = "saigneur-utilitaire", url = "${apromac.msaigneur-utilitaire.url}")
 public interface MicroserviceUtilitaireProxy {
 
     @GetMapping("/api/v1/zone/findByZoneID/{zoneID}")
