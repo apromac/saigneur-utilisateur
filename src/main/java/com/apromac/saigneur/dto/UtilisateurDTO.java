@@ -1,8 +1,10 @@
 package com.apromac.saigneur.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UtilisateurDTO {
     private Long utilisateurID;
     private String nomUtilisateur;

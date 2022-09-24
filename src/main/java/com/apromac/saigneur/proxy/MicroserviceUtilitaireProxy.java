@@ -12,11 +12,35 @@ import java.util.List;
 @FeignClient(name = "saigneur-utilitaire", url = "${apromac.msaigneur-utilitaire.url")
 public interface MicroserviceUtilitaireProxy {
 
+    @GetMapping("/api/v1/zone/findByZoneID/{zoneID}")
+    ZoneBean recupererUneZone(@PathVariable long zoneID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/api/v1/district/findAllDistrict")
     ResponseEntity<DistrictBean> recupererDistricts();
-
-    @GetMapping("/zone/findByZoneID/{zoneID}")
-    ZoneBean recupererUneZone(@PathVariable long zoneID);
 
     @GetMapping(value = "/api/v1/zone/findByDistrict/{districtID}")
     public ResponseEntity<List<ZoneBean>> recupererZoneParDistrict(@PathVariable long districtID);
