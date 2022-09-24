@@ -16,8 +16,8 @@ public interface MicroserviceUtilitaireProxy {
     @GetMapping("/api/v1/zone/findByZoneID/{zoneID}")
     ZoneBean recupererUneZone(@PathVariable long zoneID);
 
-    @GetMapping(value = "/zone/findByLibelleZone/")
-    ZoneBean recupererUneZone(@RequestParam String libelleZone);
+    @GetMapping(value = "/zone/findByLibelleZone/{libelleZone}")
+    ZoneBean recupererUneZone(@PathVariable String libelleZone);
 
 
 
