@@ -48,40 +48,40 @@ public class PosteController {
         return new ResponseEntity<>(posteDTO, HttpStatus.OK);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes d'un profil grace à son ID")
     @GetMapping(value = "/poste/findByProfil/{profilID}")
-    public ResponseEntity<List<PosteEntity>> recupererPosteParProfil(@PathVariable long profilID) {
+    public ResponseEntity<List<PosteEntity>> recupererPostesParProfil(@PathVariable long profilID) {
         List<PosteEntity> profilPostes = posteService.findByProfil(profilID);
 
         return new ResponseEntity<>(profilPostes, HttpStatus.OK);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste")
     @PostMapping(value = "/poste/savePoste")

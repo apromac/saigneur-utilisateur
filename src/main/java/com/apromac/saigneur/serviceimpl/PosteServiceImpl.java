@@ -73,7 +73,23 @@ public class PosteServiceImpl implements PosteService {
         return posteDTO;
     }
 
+    /**
+     *
+     * @param profilID
+     * @return
+     */
+    @Override
+    public List<PosteEntity> findByProfil(Long profilID) {
+        Optional<ProfilEntity> profilOptional = profilRepository.findById(profilID);
+        if (!profilOptional.isPresent())
+            throw new NotFoundException("Désolé, ce profil n'existe pas");
 
+        List<PosteEntity> postes = posteRepository.findByProfil(profilOptional.get());
+        if (postes.isEmpty())
+            throw new NoContentException("Désolé, aucun poste disponible");
+
+        return postes;
+    }
 
 
 
@@ -120,23 +136,7 @@ public class PosteServiceImpl implements PosteService {
         return posteOptional.get();
     }
 
-    /**
-     *
-     * @param profilID
-     * @return
-     */
-    @Override
-    public List<PosteEntity> findByProfil(Long profilID) {
-        Optional<ProfilEntity> profilOptional = profilRepository.findById(profilID);
-        if (!profilOptional.isPresent())
-            throw new NotFoundException("Désolé, ce profil n'existe pas");
 
-        List<PosteEntity> postes = posteRepository.findByProfil(profilOptional.get());
-        if (postes.isEmpty())
-            throw new NoContentException("Désolé, aucun poste disponible");
-
-        return postes;
-    }
 
     /**
      *
