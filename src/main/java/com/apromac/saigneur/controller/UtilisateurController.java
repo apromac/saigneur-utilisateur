@@ -43,6 +43,23 @@ public class UtilisateurController {
         return new ResponseEntity<>(utilisateurDetails, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Méthode permettant à un utilisateur de s'authentifier et de recupérer toutes informations sur l'utilisateur connecté")
+    @PostMapping(value = "/utilisateur/auth")
+    public ResponseEntity<UtilisateurDTO> authentification(@Validated @RequestBody AuthentificateRequest authentificateRequest) {
+        UtilisateurDTO utilisateurAuth = utilisateurService.authentification(authentificateRequest.getUsername(), authentificateRequest.getPassword());
+
+        return new ResponseEntity<>(utilisateurAuth, HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -81,13 +98,7 @@ public class UtilisateurController {
         return new ResponseEntity<>(utilisateur, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Méthode permettant à un utilisateur de s'authentifier et de recupérer toutes informations sur l'utilisateur connecté")
-    @PostMapping(value = "/utilisateur/auth")
-    public ResponseEntity<UtilisateurDTO> authentification(@Validated @RequestBody AuthentificateRequest authentificateRequest) {
-        UtilisateurDTO utilisateurAuth = utilisateurService.authentification(authentificateRequest.getUsername(), authentificateRequest.getPassword());
 
-        return new ResponseEntity<>(utilisateurAuth, HttpStatus.OK);
-    }
 
 
 

@@ -95,6 +95,52 @@ public class OccuperServiceImpl implements OccuperService {
         return occuperEntity;
     }
 
+    /**
+     *
+     * @param posteID
+     * @return
+     */
+    @Override
+    public List<OccuperEntity> findByPoste(Long posteID) {
+        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
+        if (!posteOptional.isPresent())
+            throw new NotFoundException("Désolé, ce poste n'existe pas");
+
+        List<OccuperEntity> occupent = occuperRepository.findByPoste(posteOptional.get());
+        if (occupent.isEmpty())
+            throw new NoContentException("Désolé, aucun poste occupé disponible");
+
+        return occupent;
+    }
+
+    /**
+     *
+     * @param posteTDHID
+     * @return
+     */
+    public OccuperEntity findByPosteActuelTDH(Long posteTDHID) {
+        Optional<PosteEntity> posteOptional = posteRepository.findById(posteTDHID);
+        if (!posteOptional.isPresent())
+            throw new NotFoundException("Désolé, ce poste n'existe pas");
+
+        OccuperEntity posteTDHOccuper = occuperRepository.findByPosteIsOccuperTrue(posteOptional.get());
+        if (posteTDHOccuper == null)
+            throw new RuntimeException("Désolé, nous n'avons pas pu récupérer le poste actuel du TDH");
+
+        return posteTDHOccuper;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -259,23 +305,7 @@ public class OccuperServiceImpl implements OccuperService {
         return occuper;
     }
 
-    /**
-     *
-     * @param posteID
-     * @return
-     */
-    @Override
-    public List<OccuperEntity> findByPoste(Long posteID) {
-        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
-        if (!posteOptional.isPresent())
-            throw new NotFoundException("Désolé, ce poste n'existe pas");
 
-        List<OccuperEntity> occupent = occuperRepository.findByPoste(posteOptional.get());
-        if (occupent.isEmpty())
-            throw new NoContentException("Désolé, aucun poste occupé disponible");
-
-        return occupent;
-    }
 
     public OccuperEntity findByPosteAndIsOccuper(Long posteID, Boolean isActif) {
         Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);

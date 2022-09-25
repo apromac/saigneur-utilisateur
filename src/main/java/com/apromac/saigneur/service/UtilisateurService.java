@@ -8,11 +8,17 @@ import java.util.List;
 public interface UtilisateurService {
     public UtilisateurEntity saveUtilisateur(UtilisateurEntity utilisateur);
     public List<UtilisateurDTO> utilisateurDetails();
+    public UtilisateurDTO authentification(String username, String password);
+
+
+
+
+
+
 
 
 
 
     public UtilisateurEntity findByUtilisateurID(Long utilisateurID);
-    public UtilisateurDTO authentification(String username, String password);
     public List<UtilisateurEntity>findAllUtilisateur();
 }

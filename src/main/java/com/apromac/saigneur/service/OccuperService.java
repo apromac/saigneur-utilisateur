@@ -6,7 +6,23 @@ import java.util.List;
 
 public interface OccuperService {
     public List<OccuperEntity> findByPoste(Long posteID);
+    public OccuperEntity findByPosteActuelTDH(Long posteTDHID);
     public OccuperEntity saveOccuper(OccuperEntity occuperEntity);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
