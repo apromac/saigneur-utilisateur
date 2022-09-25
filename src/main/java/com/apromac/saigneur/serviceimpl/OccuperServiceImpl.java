@@ -123,7 +123,7 @@ public class OccuperServiceImpl implements OccuperService {
         if (!posteOptional.isPresent())
             throw new NotFoundException("Désolé, ce poste n'existe pas");
 
-        OccuperEntity posteTDHOccuper = occuperRepository.findByPosteIsOccuperTrue(posteOptional.get());
+        OccuperEntity posteTDHOccuper = occuperRepository.findByPosteAndIsOccuperTrue(posteOptional.get());
         if (posteTDHOccuper == null)
             throw new RuntimeException("Désolé, nous n'avons pas pu récupérer le poste actuel du TDH");
 
