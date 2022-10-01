@@ -30,7 +30,7 @@ public class MenuEntity {
     @Column(name = "icon_menu", nullable = true)
     private String iconMenu;
 
-    @Column(name = "num_ordre", nullable = true)
+    @Column(name = "ordre_menu", nullable = true)
     private String numeroOrdreMenu;
 
 }

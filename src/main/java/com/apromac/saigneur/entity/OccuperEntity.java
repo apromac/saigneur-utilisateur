@@ -20,6 +20,7 @@ public class OccuperEntity {
     private String motifOccuper;
 
     @Column(name = "date_occuper", nullable = true)
+    @Temporal(TemporalType.DATE)
     private Date dateOccuper;
 
     @Column(name = "actif_occuper", nullable = true)
