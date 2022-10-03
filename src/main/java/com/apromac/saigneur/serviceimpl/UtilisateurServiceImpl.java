@@ -25,6 +25,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private OccuperRepository occuperRepository;
 
 
+
     /**
      *
      * @param utilisateur
@@ -37,6 +38,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         return utilisateurSave;
     }
+
 
     /**
      *
@@ -59,6 +61,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 utilisateurDTO.setPrenomsUtilisateur(utilisateur.getPrenomsUtilisateur());
                 utilisateurDTO.setUsername(utilisateur.getUsername());
                 utilisateurDTO.setPassword(utilisateur.getPassword());
+                utilisateurDTO.setTelephoneUtilisateur(utilisateur.getTelephoneUtilisateur());
                 utilisateurDTO.setPhotoUtilisateur(utilisateur.getPhotoUtilisateur());
                 utilisateurDTO.setPosteActuel("");
                 utilisateurDTO.setProfilActuel("");
@@ -70,6 +73,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                         utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
                         utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
                         utilisateurDTO.setPassword(occuperEntity.getUtilisateur().getPassword());
+                        utilisateurDTO.setTelephoneUtilisateur(occuperEntity.getUtilisateur().getTelephoneUtilisateur());
                         utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
                         utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
                         utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
@@ -82,6 +86,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         return utilisateurDetails;
     }
+
 
     /**
      *
@@ -104,6 +109,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateurDTO.setPrenomsUtilisateur(posteUtilisateur.getUtilisateur().getPrenomsUtilisateur());
         utilisateurDTO.setUsername(posteUtilisateur.getUtilisateur().getUsername());
         utilisateurDTO.setPassword(posteUtilisateur.getUtilisateur().getPassword());
+        utilisateurDTO.setTelephoneUtilisateur(posteUtilisateur.getUtilisateur().getTelephoneUtilisateur());
         utilisateurDTO.setPhotoUtilisateur(posteUtilisateur.getUtilisateur().getPhotoUtilisateur());
         utilisateurDTO.setPosteActuel(posteUtilisateur.getPoste().getLibellePoste());
         utilisateurDTO.setProfilActuel(posteUtilisateur.getPoste().getProfil().getLibelleProfil());
@@ -112,8 +118,56 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 
+    /**
+     *
+     * @param utilisateurTrouver
+     * @param utilisateurEntity
+     * @return
+     */
+    public UtilisateurEntity updateUtilisateur(UtilisateurEntity utilisateurTrouver, UtilisateurEntity utilisateurEntity) {
+
+        utilisateurTrouver.setNomUtilisateur(utilisateurEntity.getNomUtilisateur());
+        utilisateurTrouver.setPrenomsUtilisateur(utilisateurEntity.getPrenomsUtilisateur());
+        utilisateurTrouver.setUsername(utilisateurEntity.getUsername());
+        utilisateurTrouver.setPassword(utilisateurEntity.getPassword());
+        utilisateurTrouver.setTelephoneUtilisateur(utilisateurEntity.getTelephoneUtilisateur());
+        utilisateurTrouver.setPhotoUtilisateur(utilisateurEntity.getPhotoUtilisateur());
+
+        UtilisateurEntity utilisateurSave = utilisateurRepository.saveAndFlush(utilisateurTrouver);
+        if (utilisateurSave == null)
+            throw new RuntimeException("Désolé, nous avons rencontré une ereur lors de la mise à jour des données de l'utilisateur");
+
+        return utilisateurSave;
+    }
 
 
+
+    /**
+     *
+     * @param utilisateurID
+     * @return
+     */
+    public UtilisateurDTO findByUtilisateurDTO(Long utilisateurID) {
+        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
+        if (!utilisateurOptional.isPresent())
+            throw new NotFoundException("Désolé, cet utilisateur n'existe pas dans la base.");
+
+        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurIsOccuperTrue(utilisateurOptional.get());
+        if (occuperEntity == null)
+            throw new NotFoundException("Désolé, nous n'avons pas pu recupérer les informations de l'utilisateur");
+
+        UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
+        utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
+        utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
+        utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
+        utilisateurDTO.setPassword("");
+        utilisateurDTO.setTelephoneUtilisateur(occuperEntity.getUtilisateur().getTelephoneUtilisateur());
+        utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
+        utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
+        utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+
+        return utilisateurDTO;
+    }
 
 
 

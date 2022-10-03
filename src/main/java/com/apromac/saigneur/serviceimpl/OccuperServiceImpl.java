@@ -33,6 +33,8 @@ public class OccuperServiceImpl implements OccuperService {
     private MicroserviceUtilitaireProxy microserviceUtilitaireProxy;
 
 
+
+
     /**
      *
      * @param occuperEntity
@@ -52,6 +54,7 @@ public class OccuperServiceImpl implements OccuperService {
 
         return saveOccuper;
     }
+
 
     /**
      *
@@ -95,6 +98,8 @@ public class OccuperServiceImpl implements OccuperService {
         return occuperEntity;
     }
 
+
+
     /**
      *
      * @param posteID
@@ -112,6 +117,8 @@ public class OccuperServiceImpl implements OccuperService {
 
         return occupent;
     }
+
+
 
     /**
      *

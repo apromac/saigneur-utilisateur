@@ -11,6 +11,7 @@ public class UtilisateurDTO {
     private String prenomsUtilisateur;
     private String username;
     private String password;
+    private String telephoneUtilisateur;
     private String photoUtilisateur;
     private String profilActuel;
     private String posteActuel;

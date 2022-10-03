@@ -28,6 +28,8 @@ public class UtilisateurController {
     private OccuperService occuperService;
 
 
+
+
     @ApiOperation(value = "Méthode permettant de sauvegarder un utilisateur")
     @PostMapping(value = "/utilisateur/saveUtilisateur")
     public ResponseEntity<UtilisateurEntity> sauvegarderUnUtilisateur(@RequestBody UtilisateurEntity utilisateur) {
@@ -35,6 +37,8 @@ public class UtilisateurController {
 
         return new ResponseEntity<>(utilisateurSave, HttpStatus.CREATED);
     }
+
+
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs avec plus de details")
     @GetMapping(value = "/utilisateur/findUtilisateurDetails")
@@ -44,6 +48,8 @@ public class UtilisateurController {
         return new ResponseEntity<>(utilisateurDetails, HttpStatus.OK);
     }
 
+
+
     @ApiOperation(value = "Méthode permettant à un utilisateur de s'authentifier et de recupérer toutes informations sur l'utilisateur connecté")
     @PostMapping(value = "/utilisateur/auth")
     public ResponseEntity<UtilisateurDTO> authentification(@Validated @RequestBody AuthentificateRequest authentificateRequest) {
@@ -51,6 +57,33 @@ public class UtilisateurController {
 
         return new ResponseEntity<>(utilisateurAuth, HttpStatus.OK);
     }
+
+
+
+    @ApiOperation(value = "Méthode permettant de modifier un utilisateur grace à son ID")
+    @PutMapping(value = "/utilisateur/{utilisateurID}")
+    public ResponseEntity<UtilisateurEntity> modifierUnUtilisateur(@RequestBody UtilisateurEntity utilisateurEntity,
+                                                                   @PathVariable Long utilisateurID) {
+        UtilisateurEntity utilisateurTrouver = utilisateurService.findByUtilisateurID(utilisateurID);
+
+        UtilisateurEntity utilisateurUpdate = utilisateurService.updateUtilisateur(utilisateurTrouver, utilisateurEntity);
+
+        return new ResponseEntity<>(utilisateurUpdate, HttpStatus.OK);
+    }
+
+
+
+    @ApiOperation(value = "Méthode permettant de récupérer les détails d'informations d'un utilisateur grace à son ID")
+    @GetMapping(value = "/utilisateur/findByUtilisateurDTO/{utilisateurID}")
+    public ResponseEntity<UtilisateurDTO> recupererUnUtilisateurDTO(@PathVariable long utilisateurID) {
+        UtilisateurDTO utilisateurDTO = utilisateurService.findByUtilisateurDTO(utilisateurID);
+
+        return new ResponseEntity<>(utilisateurDTO, HttpStatus.OK);
+    }
+
+
+
+
 
 
 
@@ -98,11 +131,6 @@ public class UtilisateurController {
 
         return new ResponseEntity<>(utilisateur, HttpStatus.OK);
     }
-
-
-
-
-
 
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des utilisateurs")

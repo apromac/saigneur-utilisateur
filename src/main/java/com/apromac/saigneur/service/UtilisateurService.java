@@ -9,7 +9,8 @@ public interface UtilisateurService {
     public UtilisateurEntity saveUtilisateur(UtilisateurEntity utilisateur);
     public List<UtilisateurDTO> utilisateurDetails();
     public UtilisateurDTO authentification(String username, String password);
-
+    public UtilisateurEntity updateUtilisateur(UtilisateurEntity utilisateurTrouver, UtilisateurEntity utilisateurEntity);
+    public UtilisateurDTO findByUtilisateurDTO(Long utilisateurID);
 
 
 
