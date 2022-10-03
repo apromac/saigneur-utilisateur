@@ -56,7 +56,7 @@ public class PosteServiceImpl implements PosteService {
 
                 ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(libellePosteTDH[1].trim());
                 if (zoneBeanResponseEntity == null)
-                    throw new RuntimeException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
+                    throw new NotFoundException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
 
                 posteDTO.setZoneBean(zoneBeanResponseEntity.getLibelleZone());
                 posteDTO.setDistrictBean(zoneBeanResponseEntity.getDistrict().getLibelleDistrict());

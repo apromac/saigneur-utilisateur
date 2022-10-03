@@ -3,6 +3,7 @@ package com.apromac.saigneur.controller;
 import com.apromac.saigneur.dto.UtilisateurDTO;
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
+import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.UtilisateurService;
 import com.apromac.saigneur.utility.AuthentificateRequest;
@@ -91,7 +92,7 @@ public class UtilisateurController {
     public ResponseEntity<UtilisateurEntity> recupererUtilisateurParPoste(@PathVariable long posteID) {
         OccuperEntity posteOccuperActif = occuperService.findByPosteAndIsOccuper(posteID, true);
         if (posteOccuperActif == null)
-            throw new RuntimeException("Désolé, ce poste n'a pas d'occupant");
+            throw new NotFoundException("Désolé, ce poste n'a pas d'occupant");
 
         UtilisateurEntity utilisateur = posteOccuperActif.getUtilisateur();
 

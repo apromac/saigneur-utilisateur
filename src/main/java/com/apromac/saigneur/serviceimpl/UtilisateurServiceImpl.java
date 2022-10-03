@@ -3,6 +3,7 @@ package com.apromac.saigneur.serviceimpl;
 import com.apromac.saigneur.dto.UtilisateurDTO;
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
+import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.repository.OccuperRepository;
 import com.apromac.saigneur.repository.UtilisateurRepository;
@@ -44,7 +45,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public List<UtilisateurDTO> utilisateurDetails() {
         List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
         if (utilisateurs.isEmpty())
-            throw new RuntimeException("Désolé, la liste utilisateur est vide.");
+            throw new NoContentException("Désolé, la liste utilisateur est vide.");
 
         List<UtilisateurDTO> utilisateurDetails = new ArrayList<>();
 
@@ -91,11 +92,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public UtilisateurDTO authentification(String username, String password) {
         UtilisateurEntity utilisateurAuthentifier = utilisateurRepository.findByUsernameAndPassword(username, password);
         if (utilisateurAuthentifier == null)
-            throw new RuntimeException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
+            throw new NotFoundException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
 
         OccuperEntity posteUtilisateur = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
         if (posteUtilisateur == null)
-            throw new RuntimeException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
+            throw new NotFoundException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
 
         UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
         utilisateurDTO.setUtilisateurID(posteUtilisateur.getUtilisateur().getUtilisateurID());
@@ -172,7 +173,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public List<UtilisateurEntity> findAllUtilisateur() {
         List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
         if (utilisateurs.isEmpty())
-            throw new NotFoundException("Désolé, aucun utilisateur disponible");
+            throw new NoContentException("Désolé, aucun utilisateur disponible");
 
         return utilisateurs;
     }

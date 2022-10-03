@@ -78,7 +78,7 @@ public class OccuperServiceImpl implements OccuperService {
 
                 ZoneBean zoneBeanResponseEntity = microserviceUtilitaireProxy.recupererUneZone(libellePosteTDH[1].trim());
                 if (zoneBeanResponseEntity == null)
-                    throw new RuntimeException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
+                    throw new NotFoundException("Désolé, une erreur est survenue lors de la récupération de votre zone.");
 
                 occuperBuild.setZoneOccuper(zoneBeanResponseEntity.getLibelleZone());
                 occuperBuild.setDistrictOccuper(zoneBeanResponseEntity.getDistrict().getLibelleDistrict());
@@ -125,7 +125,7 @@ public class OccuperServiceImpl implements OccuperService {
 
         OccuperEntity posteTDHOccuper = occuperRepository.findByPosteAndIsOccuperTrue(posteOptional.get());
         if (posteTDHOccuper == null)
-            throw new RuntimeException("Désolé, nous n'avons pas pu récupérer le poste actuel du TDH");
+            throw new NotFoundException("Désolé, nous n'avons pas pu récupérer le poste actuel du TDH");
 
         return posteTDHOccuper;
     }

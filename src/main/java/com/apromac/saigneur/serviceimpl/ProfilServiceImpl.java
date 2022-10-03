@@ -1,6 +1,7 @@
 package com.apromac.saigneur.serviceimpl;
 
 import com.apromac.saigneur.entity.ProfilEntity;
+import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.repository.ProfilRepository;
 import com.apromac.saigneur.service.ProfilService;
@@ -51,7 +52,7 @@ public class ProfilServiceImpl implements ProfilService {
     public List<ProfilEntity> findAllProfil() {
         List<ProfilEntity> profils = profilRepository.findAll();
         if (profils.isEmpty())
-            throw new NotFoundException("Désolé, aucun profil disponible");
+            throw new NoContentException("Désolé, aucun profil disponible");
 
         return profils;
     }
