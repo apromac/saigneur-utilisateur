@@ -152,7 +152,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if (!utilisateurOptional.isPresent())
             throw new NotFoundException("Désolé, cet utilisateur n'existe pas dans la base.");
 
-        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurIsOccuperTrue(utilisateurOptional.get());
+        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get());
         if (occuperEntity == null)
             throw new NotFoundException("Désolé, nous n'avons pas pu recupérer les informations de l'utilisateur");
 
