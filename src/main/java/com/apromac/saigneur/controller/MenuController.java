@@ -33,8 +33,8 @@ public class MenuController {
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste de menu d'un profil grace à son ID")
     @GetMapping(value = "/menu/findByPosteID/{posteID}")
-    public ResponseEntity<List<MenuEntity>> recupererMenuParProfil(@PathVariable long profilID) {
-        ProfilEntity profil = profilService.findByProfilID(profilID);
+    public ResponseEntity<List<MenuEntity>> recupererMenuParProfil(@PathVariable long posteID) {
+        ProfilEntity profil = profilService.findByProfilID(posteID);
 
         List<AccederEntity> accesProfil = accederService.findByProfil(profil);
         List<MenuEntity> menus = menuService.findByProfil(accesProfil);

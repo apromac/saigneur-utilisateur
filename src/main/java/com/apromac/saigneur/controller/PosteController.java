@@ -2,7 +2,6 @@ package com.apromac.saigneur.controller;
 
 import com.apromac.saigneur.dto.PosteDTO;
 import com.apromac.saigneur.entity.PosteEntity;
-import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.PosteService;
 import io.swagger.annotations.ApiOperation;
@@ -80,28 +79,6 @@ public class PosteController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste")
     @PostMapping(value = "/poste/savePoste")
     public ResponseEntity<PosteEntity> sauvegarderUnPoste(@RequestBody PosteEntity poste) {
@@ -109,7 +86,5 @@ public class PosteController {
 
         return new ResponseEntity<>(posteSave, HttpStatus.CREATED);
     }
-
-
 
 }

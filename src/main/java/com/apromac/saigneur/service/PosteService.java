@@ -9,17 +9,7 @@ public interface PosteService {
     public PosteDTO findByPosteDTO(Long posteID);
     public List<PosteEntity> findByProfil(Long profilID);
     public PosteEntity updatePoste(PosteEntity posteTrouver, PosteEntity posteEntity);
-
-
-
-
-
-
-
-
-
     public PosteEntity findByPosteID(Long posteID);
     public PosteEntity savePoste(PosteEntity poste);
     public List<PosteEntity> findAllPoste();
-
 }
