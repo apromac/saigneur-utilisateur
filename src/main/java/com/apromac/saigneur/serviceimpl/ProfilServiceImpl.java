@@ -1,5 +1,6 @@
 package com.apromac.saigneur.serviceimpl;
 
+import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
@@ -17,6 +18,8 @@ public class ProfilServiceImpl implements ProfilService {
     @Autowired
     private ProfilRepository profilRepository;
 
+
+
     /**
      *
      * @param profilID
@@ -31,6 +34,8 @@ public class ProfilServiceImpl implements ProfilService {
         return profilOptional.get();
     }
 
+
+
     /**
      *
      * @param profil
@@ -44,6 +49,8 @@ public class ProfilServiceImpl implements ProfilService {
         return profilSave;
     }
 
+
+
     /**
      *
      * @return
@@ -56,5 +63,19 @@ public class ProfilServiceImpl implements ProfilService {
 
         return profils;
     }
-    
+
+
+    /**
+     *
+     * @param profilTrouver
+     * @param profilEntity
+     * @return
+     */
+    public ProfilEntity updateProfil(ProfilEntity profilTrouver, ProfilEntity profilEntity) {
+        profilTrouver.setLibelleProfil(profilEntity.getLibelleProfil());
+
+        ProfilEntity profilUpdate = profilRepository.saveAndFlush(profilTrouver);
+
+        return profilUpdate;
+    }
 }

@@ -2,6 +2,7 @@ package com.apromac.saigneur.controller;
 
 import com.apromac.saigneur.dto.PosteDTO;
 import com.apromac.saigneur.entity.PosteEntity;
+import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.PosteService;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,8 @@ public class PosteController {
     private OccuperService occuperService;
 
 
+
+
     @ApiOperation(value = "Méthode permettant de récupérer un poste grace à son ID")
     @GetMapping(value = "/poste/findByPosteID/{posteID}")
     public ResponseEntity<PosteEntity> recupererUnPoste(@PathVariable long posteID) {
@@ -31,6 +34,8 @@ public class PosteController {
 
         return new ResponseEntity<>(poste, HttpStatus.OK);
     }
+
+
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes")
     @GetMapping(value = "/poste/findAllPoste")
@@ -40,6 +45,8 @@ public class PosteController {
         return new ResponseEntity<>(postes, HttpStatus.OK);
     }
 
+
+
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes d'un profil grace à son ID")
     @GetMapping(value = "/poste/findByPosteDTO/{posteID}")
     public ResponseEntity<PosteDTO> recupererPosteDTO(@PathVariable long posteID) {
@@ -47,6 +54,8 @@ public class PosteController {
 
         return new ResponseEntity<>(posteDTO, HttpStatus.OK);
     }
+
+
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes d'un profil grace à son ID")
     @GetMapping(value = "/poste/findByProfil/{profilID}")
@@ -58,6 +67,16 @@ public class PosteController {
 
 
 
+    @ApiOperation(value = "Méthode permettant de modifier un poste grace à son ID")
+    @GetMapping(value = "/poste/{posteID}")
+    public ResponseEntity<PosteEntity> modifierPoste(@RequestBody PosteEntity posteEntity,
+                                                     @PathVariable long posteID) {
+        PosteEntity posteTrouver = posteService.findByPosteID(posteID);
+
+        PosteEntity posteUpdate = posteService.updatePoste(posteTrouver, posteEntity);
+
+        return new ResponseEntity<>(posteUpdate, HttpStatus.OK);
+    }
 
 
 

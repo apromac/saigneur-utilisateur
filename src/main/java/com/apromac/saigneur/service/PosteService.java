@@ -8,6 +8,7 @@ import java.util.List;
 public interface PosteService {
     public PosteDTO findByPosteDTO(Long posteID);
     public List<PosteEntity> findByProfil(Long profilID);
+    public PosteEntity updatePoste(PosteEntity posteTrouver, PosteEntity posteEntity);
 
 
 

@@ -62,7 +62,7 @@ public class UtilisateurController {
 
     @ApiOperation(value = "Méthode permettant de modifier un utilisateur grace à son ID")
     @PutMapping(value = "/utilisateur/{utilisateurID}")
-    public ResponseEntity<UtilisateurEntity> modifierUnUtilisateur(@RequestBody UtilisateurEntity utilisateurEntity,
+        public ResponseEntity<UtilisateurEntity> modifierUnUtilisateur(@RequestBody UtilisateurEntity utilisateurEntity,
                                                                    @PathVariable Long utilisateurID) {
         UtilisateurEntity utilisateurTrouver = utilisateurService.findByUtilisateurID(utilisateurID);
 

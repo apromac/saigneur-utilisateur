@@ -73,6 +73,9 @@ public class PosteServiceImpl implements PosteService {
         return posteDTO;
     }
 
+
+
+
     /**
      *
      * @param profilID
@@ -94,6 +97,29 @@ public class PosteServiceImpl implements PosteService {
 
 
 
+    /**
+     *
+     * @param posteTrouver
+     * @param posteEntity
+     * @return
+     */
+    public PosteEntity updatePoste(PosteEntity posteTrouver, PosteEntity posteEntity) {
+
+        if (posteEntity.getProfil() != null) {
+            Optional<ProfilEntity> profilOptional = profilRepository.findById(posteEntity.getProfil().getProfilID());
+            if (!profilOptional.isPresent())
+                throw new NotFoundException("");
+
+            ProfilEntity profil = profilOptional.get();
+
+            posteTrouver.setLibellePoste(posteEntity.getLibellePoste());
+            posteTrouver.setProfil(profil);
+        }
+
+        PosteEntity posteUpdate = posteRepository.saveAndFlush(posteTrouver);
+
+        return posteUpdate;
+    }
 
 
 
