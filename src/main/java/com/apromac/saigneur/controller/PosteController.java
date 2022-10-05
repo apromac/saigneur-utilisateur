@@ -68,7 +68,7 @@ public class PosteController {
 
 
     @ApiOperation(value = "Méthode permettant de modifier un poste grace à son ID")
-    @GetMapping(value = "/poste/{posteID}")
+    @PutMapping(value = "/poste/{posteID}")
     public ResponseEntity<PosteEntity> modifierPoste(@RequestBody PosteEntity posteEntity,
                                                      @PathVariable long posteID) {
         PosteEntity posteTrouver = posteService.findByPosteID(posteID);
