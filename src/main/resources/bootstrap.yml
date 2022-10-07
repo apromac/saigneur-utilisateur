@@ -1,0 +1,31 @@
+# ==================================================
+# SERVER
+# ==================================================
+config:
+  server:
+    #    hostname: localhost
+    hostname: 78.138.45.243
+    port: 9101
+
+# ==================================================
+# APROMAC
+# ==================================================
+apromac:
+  msaigneur-utilitaire:
+    url: http://78.138.45.243:9004
+
+
+# ==================================================
+# SPRING
+# ==================================================
+spring:
+  application:
+    name: saigneur-utilisateur
+  profiles:
+    #    active: dev
+    active: prod
+  cloud:
+    config:
+      uri: http://${config.server.hostname}:${config.server.port}
+      #      profile: dev
+      profile: prod

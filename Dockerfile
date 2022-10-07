@@ -2,7 +2,7 @@
 # DOCKERFILE
 # CONSTRUCTION DE L'IMAGE DOCKER DU MICROSERVICE "saigneur-utilisateur"
 # ======================================================================
-FROM adoptopenjdk/openjdk11:alpine
+FROM adoptopenjdk/openjdk11:alpine-slim
 LABEL maintainer = "apromac <abraham.tiene@apromac.ci>"
 
 RUN mkdir /usr/local/microservice \
