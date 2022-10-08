@@ -41,6 +41,14 @@ public class MenuController {
 
         return new ResponseEntity<>(menus, HttpStatus.OK);
     }
-    
+
+
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des menus")
+    @GetMapping(value = "/menu/findAllMenu")
+    public ResponseEntity<List<MenuEntity>> recupererMenus() {
+        List<MenuEntity> menus = menuService.findAllMenu();
+
+        return new ResponseEntity<>(menus, HttpStatus.OK);
+    }
     
 }

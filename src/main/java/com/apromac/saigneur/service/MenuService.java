@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface MenuService {
     public List<MenuEntity> findByProfil(List<AccederEntity> accederList);
+    public List<MenuEntity> findAllMenu();
+
+
+
 }
