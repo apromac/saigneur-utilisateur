@@ -27,7 +27,7 @@ public class UtilisateurEntity {
     @Column(name = "password_utilisateur", nullable = false)
     private String password;
 
-    @Column(name = "tel_utilisateur", nullable = false)
+    @Column(name = "tel_utilisateur", nullable = true)
     private String telephoneUtilisateur;
 
     @Column(name = "photo_utilisateur", nullable = true)
