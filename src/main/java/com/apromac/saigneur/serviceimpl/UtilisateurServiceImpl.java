@@ -1,10 +1,10 @@
 package com.apromac.saigneur.serviceimpl;
 
 import com.apromac.saigneur.dto.UtilisateurDTO;
-import com.apromac.saigneur.entity.OccuperEntity;
-import com.apromac.saigneur.entity.UtilisateurEntity;
+import com.apromac.saigneur.entity.*;
 import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
+import com.apromac.saigneur.repository.AccederRepository;
 import com.apromac.saigneur.repository.OccuperRepository;
 import com.apromac.saigneur.repository.UtilisateurRepository;
 import com.apromac.saigneur.service.UtilisateurService;
@@ -24,6 +24,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Autowired
     private OccuperRepository occuperRepository;
 
+    @Autowired
+    private AccederRepository accederRepository;
 
 
     /**
@@ -103,6 +105,19 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if (posteUtilisateur == null)
             throw new NotFoundException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
 
+
+        ProfilEntity profilEntity = posteUtilisateur.getPoste().getProfil();
+
+        List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
+        if (acceders.isEmpty())
+            throw new NoContentException("Désolé, ce profil ne possede aucun droit sur les menus.");
+
+        List<MenuEntity> menus = new ArrayList<>();
+        for (AccederEntity acces : acceders) {
+            MenuEntity menu = acces.getMenu();
+            menus.add(menu);
+        }
+
         UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
         utilisateurDTO.setUtilisateurID(posteUtilisateur.getUtilisateur().getUtilisateurID());
         utilisateurDTO.setNomUtilisateur(posteUtilisateur.getUtilisateur().getNomUtilisateur());
@@ -113,6 +128,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateurDTO.setPhotoUtilisateur(posteUtilisateur.getUtilisateur().getPhotoUtilisateur());
         utilisateurDTO.setPosteActuel(posteUtilisateur.getPoste().getLibellePoste());
         utilisateurDTO.setProfilActuel(posteUtilisateur.getPoste().getProfil().getLibelleProfil());
+        utilisateurDTO.setMenus(menus);
 
         return utilisateurDTO;
     }

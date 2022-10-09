@@ -1,7 +1,10 @@
 package com.apromac.saigneur.dto;
 
+import com.apromac.saigneur.entity.MenuEntity;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,4 +18,5 @@ public class UtilisateurDTO {
     private String photoUtilisateur;
     private String profilActuel;
     private String posteActuel;
+    private List<MenuEntity> menus;
 }
