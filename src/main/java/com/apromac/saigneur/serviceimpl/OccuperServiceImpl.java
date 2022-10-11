@@ -49,6 +49,10 @@ public class OccuperServiceImpl implements OccuperService {
         if (!posteOptional.isPresent())
             throw new NotFoundException("Désolé, aucun poste trouvé à partie de l'ID");
 
+        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuper(posteOptional.get(), true);
+        if (posteOccuper != null)
+            throw new NotFoundException("Désolé, ce poste est déja occupé");
+
         OccuperEntity buildOccuper = buildZoneUtilisateur(occuperEntity);
         OccuperEntity saveOccuper = occuperRepository.save(buildOccuper);
 
