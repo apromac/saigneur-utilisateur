@@ -4,6 +4,7 @@ import com.apromac.saigneur.bean.ZoneBean;
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
+import com.apromac.saigneur.exception.LockedException;
 import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.proxy.MicroserviceUtilitaireProxy;
@@ -51,7 +52,7 @@ public class OccuperServiceImpl implements OccuperService {
 
         OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuper(posteOptional.get(), true);
         if (posteOccuper != null)
-            throw new NotFoundException("Désolé, ce poste est déja occupé");
+            throw new LockedException("Désolé, ce poste est déja occupé");
 
         OccuperEntity buildOccuper = buildZoneUtilisateur(occuperEntity);
         OccuperEntity saveOccuper = occuperRepository.save(buildOccuper);
