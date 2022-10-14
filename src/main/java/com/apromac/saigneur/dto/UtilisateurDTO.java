@@ -18,5 +18,6 @@ public class UtilisateurDTO {
     private String photoUtilisateur;
     private String profilActuel;
     private String posteActuel;
+    private String district;
     private List<MenuEntity> menus;
 }

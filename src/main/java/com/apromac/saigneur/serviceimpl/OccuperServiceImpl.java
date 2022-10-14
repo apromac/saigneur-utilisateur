@@ -145,6 +145,24 @@ public class OccuperServiceImpl implements OccuperService {
 
 
 
+    /**
+     *
+     * @param posteID
+     * @param district
+     * @return
+     */
+    public List<OccuperEntity> findByPosteActuelTDHParDistrict(Long posteID, String district) {
+        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
+        if (!posteOptional.isPresent())
+            throw new NotFoundException("Désolé, ce poste n'existe pas");
+
+        List<OccuperEntity> posteTDHOccuperParDistrict = occuperRepository.findByPosteAndDistrictOccuperAndIsOccuperTrue(posteOptional.get(), district);
+        if (posteTDHOccuperParDistrict == null)
+            throw new NotFoundException("Désolé, nous n'avons pas pu récupérer le poste actuel du TDH par district");
+
+        return posteTDHOccuperParDistrict;
+    }
+
 
 
 

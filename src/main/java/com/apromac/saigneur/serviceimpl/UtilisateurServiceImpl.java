@@ -67,6 +67,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 utilisateurDTO.setPhotoUtilisateur(utilisateur.getPhotoUtilisateur());
                 utilisateurDTO.setPosteActuel("");
                 utilisateurDTO.setProfilActuel("");
+                utilisateurDTO.setDistrict("");
             } else {
                 for (OccuperEntity occuperEntity: occuperEntityList) {
                     if (occuperEntity.getIsOccuper()) {
@@ -79,6 +80,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                         utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
                         utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
                         utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+                        utilisateurDTO.setDistrict(occuperEntity.getDistrictOccuper());
                     }
                 }
             }
@@ -101,12 +103,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if (utilisateurAuthentifier == null)
             throw new NotFoundException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
 
-        OccuperEntity posteUtilisateur = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
-        if (posteUtilisateur == null)
+        OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
+        if (posteUtilisateurOccuper == null)
             throw new NotFoundException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
 
-
-        ProfilEntity profilEntity = posteUtilisateur.getPoste().getProfil();
+        ProfilEntity profilEntity = posteUtilisateurOccuper.getPoste().getProfil();
 
         List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
         if (acceders.isEmpty())
@@ -119,15 +120,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         }
 
         UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
-        utilisateurDTO.setUtilisateurID(posteUtilisateur.getUtilisateur().getUtilisateurID());
-        utilisateurDTO.setNomUtilisateur(posteUtilisateur.getUtilisateur().getNomUtilisateur());
-        utilisateurDTO.setPrenomsUtilisateur(posteUtilisateur.getUtilisateur().getPrenomsUtilisateur());
-        utilisateurDTO.setUsername(posteUtilisateur.getUtilisateur().getUsername());
-        utilisateurDTO.setPassword(posteUtilisateur.getUtilisateur().getPassword());
-        utilisateurDTO.setTelephoneUtilisateur(posteUtilisateur.getUtilisateur().getTelephoneUtilisateur());
-        utilisateurDTO.setPhotoUtilisateur(posteUtilisateur.getUtilisateur().getPhotoUtilisateur());
-        utilisateurDTO.setPosteActuel(posteUtilisateur.getPoste().getLibellePoste());
-        utilisateurDTO.setProfilActuel(posteUtilisateur.getPoste().getProfil().getLibelleProfil());
+        utilisateurDTO.setUtilisateurID(posteUtilisateurOccuper.getUtilisateur().getUtilisateurID());
+        utilisateurDTO.setNomUtilisateur(posteUtilisateurOccuper.getUtilisateur().getNomUtilisateur());
+        utilisateurDTO.setPrenomsUtilisateur(posteUtilisateurOccuper.getUtilisateur().getPrenomsUtilisateur());
+        utilisateurDTO.setUsername(posteUtilisateurOccuper.getUtilisateur().getUsername());
+        utilisateurDTO.setPassword(posteUtilisateurOccuper.getUtilisateur().getPassword());
+        utilisateurDTO.setTelephoneUtilisateur(posteUtilisateurOccuper.getUtilisateur().getTelephoneUtilisateur());
+        utilisateurDTO.setPhotoUtilisateur(posteUtilisateurOccuper.getUtilisateur().getPhotoUtilisateur());
+        utilisateurDTO.setPosteActuel(posteUtilisateurOccuper.getPoste().getLibellePoste());
+        utilisateurDTO.setProfilActuel(posteUtilisateurOccuper.getPoste().getProfil().getLibelleProfil());
+        utilisateurDTO.setDistrict(posteUtilisateurOccuper.getDistrictOccuper());
         utilisateurDTO.setMenus(menus);
 
         return utilisateurDTO;
@@ -181,6 +183,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
         utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
         utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+        utilisateurDTO.setDistrict(occuperEntity.getDistrictOccuper());
 
         return utilisateurDTO;
     }
