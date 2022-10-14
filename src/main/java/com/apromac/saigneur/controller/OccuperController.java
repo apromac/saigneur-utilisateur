@@ -36,19 +36,10 @@ public class OccuperController {
     }
 
 
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des postes TDH par district")
-    @GetMapping(value = "/occuper/poste/{posteID}/district/{district}")
-    public ResponseEntity<List<OccuperEntity>> recupererPosteActuelTDHParDisctrict(@PathVariable long posteID, @PathVariable String district) {
-        List<OccuperEntity> occuperList = occuperService.findByPosteActuelTDHParDistrict(posteID, district);
-
-        return new ResponseEntity<>(occuperList, HttpStatus.OK);
-    }
-
-
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des postes TDH par district")
-    @GetMapping(value = "/occuper/district/{district}")
-    public ResponseEntity<List<OccuperEntity>> recupererPosteActuelParDisctrict(@PathVariable String district) {
-        List<OccuperEntity> occuperList = occuperService.findByDistrict(district);
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des profils TDH par district")
+    @GetMapping(value = "/occuper/district/{district}/profil/{profilID}")
+    public ResponseEntity<List<OccuperEntity>> recupererProfilTDHParDisctrict(@PathVariable String district, @PathVariable Long profilID) {
+        List<OccuperEntity> occuperList = occuperService.findByDistrictParProfil(district, profilID);
 
         return new ResponseEntity<>(occuperList, HttpStatus.OK);
     }

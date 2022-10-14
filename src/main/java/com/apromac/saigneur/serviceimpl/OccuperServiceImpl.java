@@ -3,6 +3,7 @@ package com.apromac.saigneur.serviceimpl;
 import com.apromac.saigneur.bean.ZoneBean;
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
+import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.exception.LockedException;
 import com.apromac.saigneur.exception.NoContentException;
@@ -15,6 +16,7 @@ import com.apromac.saigneur.service.OccuperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,34 +149,23 @@ public class OccuperServiceImpl implements OccuperService {
 
     /**
      *
-     * @param posteID
      * @param district
      * @return
      */
-    public List<OccuperEntity> findByPosteActuelTDHParDistrict(Long posteID, String district) {
-        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
-        if (!posteOptional.isPresent())
-            throw new NotFoundException("Désolé, ce poste n'existe pas");
-
-//        List<OccuperEntity> posteTDHOccuperParDistrict = occuperRepository.findByPosteAndDistrictOccuperAndIsOccuperTrue(posteOptional.get(), district);
-        List<OccuperEntity> posteTDHOccuperParDistrict = occuperRepository.findByPosteAndDistrictOccuper(posteOptional.get(), district);
-        if (posteTDHOccuperParDistrict == null)
-            throw new NotFoundException("Désolé, nous n'avons pas pu récupérer le poste actuel du TDH par district");
-
-        return posteTDHOccuperParDistrict;
-    }
-
-
-    public List<OccuperEntity> findByDistrict(String district) {
-//        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
-//        if (!posteOptional.isPresent())
-//            throw new NotFoundException("Désolé, ce poste n'existe pas");
-
-        List<OccuperEntity> occuperDistrict = occuperRepository.findByDistrictOccuper(district);
+    public List<OccuperEntity> findByDistrictParProfil(String district, Long profilID) {
+        List<OccuperEntity> occuperDistrict = occuperRepository.findByDistrictOccuperAndIsOccuperTrue(district);
         if (occuperDistrict.isEmpty())
             throw new NoContentException("Désolé, nous n'avons pas pu récupérer la liste");
 
-        return occuperDistrict;
+        List<OccuperEntity> posteTDHParDistrict = new ArrayList<>();
+
+        for (OccuperEntity occuperEntity: occuperDistrict) {
+            ProfilEntity profil = occuperEntity.getPoste().getProfil();
+            if (profil.getProfilID() == profilID)
+                posteTDHParDistrict.add(occuperEntity);
+        }
+
+        return posteTDHParDistrict;
     }
 
 

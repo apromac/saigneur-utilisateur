@@ -7,8 +7,7 @@ import java.util.List;
 public interface OccuperService {
     public List<OccuperEntity> findByPoste(Long posteID);
     public OccuperEntity findByPosteActuelTDH(Long posteTDHID);
-    public List<OccuperEntity> findByPosteActuelTDHParDistrict(Long posteID, String district);
-    public List<OccuperEntity> findByDistrict(String district);
+    public List<OccuperEntity> findByDistrictParProfil(String district, Long profilID);
     public OccuperEntity saveOccuper(OccuperEntity occuperEntity);
 
 
