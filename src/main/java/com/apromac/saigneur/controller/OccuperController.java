@@ -38,7 +38,7 @@ public class OccuperController {
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des profils TDH par district")
     @GetMapping(value = "/occuper/district/{district}/profil/{profilID}")
-    public ResponseEntity<List<OccuperEntity>> recupererProfilTDHParDisctrict(@PathVariable String district, @PathVariable Long profilID) {
+    public ResponseEntity<List<OccuperEntity>> recupererProfilTDHParDistrict(@PathVariable String district, @PathVariable Long profilID) {
         List<OccuperEntity> occuperList = occuperService.findByDistrictParProfil(district, profilID);
 
         return new ResponseEntity<>(occuperList, HttpStatus.OK);
