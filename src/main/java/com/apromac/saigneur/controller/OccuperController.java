@@ -45,6 +45,14 @@ public class OccuperController {
     }
 
 
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des postes TDH par district")
+    @GetMapping(value = "/occuper/district/{district}")
+    public ResponseEntity<List<OccuperEntity>> recupererPosteActuelParDisctrict(@PathVariable String district) {
+        List<OccuperEntity> occuperList = occuperService.findByDistrict(district);
+
+        return new ResponseEntity<>(occuperList, HttpStatus.OK);
+    }
+
 
 
 

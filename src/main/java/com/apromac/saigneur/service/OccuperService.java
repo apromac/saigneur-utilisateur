@@ -8,6 +8,7 @@ public interface OccuperService {
     public List<OccuperEntity> findByPoste(Long posteID);
     public OccuperEntity findByPosteActuelTDH(Long posteTDHID);
     public List<OccuperEntity> findByPosteActuelTDHParDistrict(Long posteID, String district);
+    public List<OccuperEntity> findByDistrict(String district);
     public OccuperEntity saveOccuper(OccuperEntity occuperEntity);
 
 

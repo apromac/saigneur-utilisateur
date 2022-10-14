@@ -165,6 +165,17 @@ public class OccuperServiceImpl implements OccuperService {
     }
 
 
+    public List<OccuperEntity> findByDistrict(String district) {
+//        Optional<PosteEntity> posteOptional = posteRepository.findById(posteID);
+//        if (!posteOptional.isPresent())
+//            throw new NotFoundException("Désolé, ce poste n'existe pas");
+
+        List<OccuperEntity> occuperDistrict = occuperRepository.findByDistrictOccuper(district);
+        if (occuperDistrict.isEmpty())
+            throw new NoContentException("Désolé, nous n'avons pas pu récupérer la liste");
+
+        return occuperDistrict;
+    }
 
 
 
