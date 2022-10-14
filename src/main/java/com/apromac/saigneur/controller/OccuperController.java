@@ -37,7 +37,7 @@ public class OccuperController {
 
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes TDH par district")
-    @GetMapping(value = "/occuper/poste/{posteID}/district/{disctrict}")
+    @GetMapping(value = "/occuper/poste/{posteID}/district/{district}")
     public ResponseEntity<List<OccuperEntity>> recupererPosteActuelTDHParDisctrict(@PathVariable long posteID, @PathVariable String district) {
         List<OccuperEntity> occuperList = occuperService.findByPosteActuelTDHParDistrict(posteID, district);
 
