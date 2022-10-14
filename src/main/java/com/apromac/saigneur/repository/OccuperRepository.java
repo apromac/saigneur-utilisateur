@@ -14,7 +14,7 @@ public interface OccuperRepository extends JpaRepository<OccuperEntity, Long> {
     public OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
     public OccuperEntity findByPosteAndIsOccuperTrue(PosteEntity posteTDH);
     public List<OccuperEntity> findByPosteAndDistrictOccuperAndIsOccuperTrue(PosteEntity posteTDH, String district);
-
+    public List<OccuperEntity> findByPosteAndDistrictOccuper(PosteEntity posteTDH, String district);
 
 
 
