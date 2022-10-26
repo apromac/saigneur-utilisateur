@@ -1,15 +1,56 @@
 package com.apromac.saigneur.service;
 
-import com.apromac.saigneur.dto.PosteDTO;
 import com.apromac.saigneur.entity.PosteEntity;
+import com.apromac.saigneur.utility.PosteRequest;
 
 import java.util.List;
 
 public interface PosteService {
-    public PosteDTO findByPosteDTO(Long posteID);
-    public List<PosteEntity> findByProfil(Long profilID);
-    public PosteEntity updatePoste(PosteEntity posteTrouver, PosteEntity posteEntity);
-    public PosteEntity findByPosteID(Long posteID);
-    public PosteEntity savePoste(PosteEntity poste);
+
+    /**
+     * Methode permettant de récupérer la liste des postes.
+     * @return postes
+     */
     public List<PosteEntity> findAllPoste();
+
+    /**
+     * Methode permettant de récupérer un poste grace à son ID.
+     * @param posteID
+     * @return poste
+     */
+    public PosteEntity findByPosteID(Long posteID);
+
+    /**
+     * Methode permettant de sauvegarder un poste.
+     * @param posteRequest
+     * @return posteSave
+     */
+    public PosteEntity savePoste(PosteRequest posteRequest);
+
+    /**
+     * Methode permettant de modifier un poste grace au posteTrouver et au posteEntity.
+     * @param posteTrouver
+     * @param posteEntity
+     * @return
+     */
+    public PosteEntity updatePoste(PosteEntity posteTrouver, PosteEntity posteEntity);
+
+    /**
+     * Methode permettant de récupérer la liste des postes grace à l'ID du profil.
+     * @param profilID
+     * @return
+     */
+    public List<PosteEntity> findByProfil(Long profilID);
+
+    /**
+     * Methode permettant de récupérer la liste des postes en fonction de l'ID du profil et le district
+     * @param profilID
+     * @param districtBean
+     * @return
+     */
+    public List<PosteEntity> findByProfilAndDistrictBean(Long profilID, String districtBean);
+
 }
+
+//
+//    public PosteDTO findByPosteDTO(Long posteID);

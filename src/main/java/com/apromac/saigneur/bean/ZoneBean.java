@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ZoneBean {
     private Long zoneID;
-    private String libelleZone;
-    private DistrictBean district;
+    private String libelleZoneBean;
+    private String districtBean;
 }

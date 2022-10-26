@@ -18,26 +18,9 @@ public class MenuServiceImpl implements MenuService {
     MenuRepository menuRepository;
 
 
-    /**
-     *
-     * @param accederList
-     * @return
-     */
-    @Override
-    public List<MenuEntity> findByProfil(List<AccederEntity> accederList) {
-        List<MenuEntity> menus = new ArrayList<>();
-
-        for (AccederEntity acces : accederList) {
-            MenuEntity menu = acces.getMenu();
-            menus.add(menu);
-        }
-
-        return menus;
-    }
-
 
     /**
-     *
+     * Methode permettant de récupérer la liste de menu.
      * @return
      */
     @Override
@@ -48,4 +31,23 @@ public class MenuServiceImpl implements MenuService {
 
         return menus;
     }
+
+
+    /**
+     * Methode permettant de récupérer la liste de menu en fonction de la liste des profils contenus dans les objets AccederList
+     * @param accederList répresente la liste des profils qui ont accès à un menu
+     * @return menus
+     */
+    @Override
+    public List<MenuEntity> findByAccesProfil(List<AccederEntity> accederList) {
+        List<MenuEntity> menus = new ArrayList<>();
+
+        for (AccederEntity acces : accederList) {
+            MenuEntity menu = acces.getMenu();
+            menus.add(menu);
+        }
+
+        return menus;
+    }
+
 }

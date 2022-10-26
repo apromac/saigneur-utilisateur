@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OccuperRequest {
-
+public class PosteRequest {
+    private String libellePoste;
+    private Long profilID;
 }

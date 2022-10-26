@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
@@ -17,6 +15,7 @@ public class OccuperController {
 
     @Autowired
     private OccuperService occuperService;
+
 
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste occupé par un utilisateur")
@@ -27,55 +26,40 @@ public class OccuperController {
         return new ResponseEntity<>(occuperSave, HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "Méthode permettant de récupérer les informations relatives au poste actuel d'un TDH grace à l'ID du poste")
-    @GetMapping(value = "/occuper/findByPosteTDHID/{posteTDHID}")
-    public ResponseEntity<OccuperEntity> recupererPosteActuelTDHOccuper(@PathVariable long posteTDHID) {
-        OccuperEntity occuperEntity = occuperService.findByPosteActuelTDH(posteTDHID);
-
-        return new ResponseEntity<>(occuperEntity, HttpStatus.OK);
-    }
-
-
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des profils TDH par district")
-    @GetMapping(value = "/occuper/district/{district}/profil/{profilID}")
-    public ResponseEntity<List<OccuperEntity>> recupererProfilTDHParDistrict(@PathVariable String district, @PathVariable Long profilID) {
-        List<OccuperEntity> occuperList = occuperService.findByDistrictParProfil(district, profilID);
-
-        return new ResponseEntity<>(occuperList, HttpStatus.OK);
-    }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des informations relatives au poste d'un utlisateur grace à l'ID du poste")
-    @GetMapping(value = "/occuper/findByPosteID/{posteID}")
-    public ResponseEntity<List<OccuperEntity>> recupererDetailsPoste(@PathVariable long posteID) {
-        List<OccuperEntity> occuperEntityList = occuperService.findByPoste(posteID);
-
-        return new ResponseEntity<>(occuperEntityList, HttpStatus.OK);
-    }
 
 
 
 }
+
+
+
+
+
+//    @ApiOperation(value = "Méthode permettant de récupérer les informations relatives au poste actuel d'un TDH grace à l'ID du poste")
+//    @GetMapping(value = "/occuper/findByPosteTDHID/{posteTDHID}")
+//    public ResponseEntity<OccuperEntity> recupererPosteActuelTDHOccuper(@PathVariable long posteTDHID) {
+//        OccuperEntity occuperEntity = occuperService.findByPosteActuelTDH(posteTDHID);
+//
+//        return new ResponseEntity<>(occuperEntity, HttpStatus.OK);
+//    }
+//
+//
+//    @ApiOperation(value = "Méthode permettant de récupérer la liste des profils TDH par district")
+//    @GetMapping(value = "/occuper/district/{district}/profil/{profilID}")
+//    public ResponseEntity<List<OccuperEntity>> recupererProfilTDHParDistrict(@PathVariable String district, @PathVariable Long profilID) {
+//        List<OccuperEntity> occuperList = occuperService.findByDistrictParProfil(district, profilID);
+//
+//        return new ResponseEntity<>(occuperList, HttpStatus.OK);
+//    }
+//
+//
+//    @ApiOperation(value = "Méthode permettant de récupérer la liste des informations relatives au poste d'un utlisateur grace à l'ID du poste")
+//    @GetMapping(value = "/occuper/findByPosteID/{posteID}")
+//    public ResponseEntity<List<OccuperEntity>> recupererDetailsPoste(@PathVariable long posteID) {
+//        List<OccuperEntity> occuperEntityList = occuperService.findByPoste(posteID);
+//
+//        return new ResponseEntity<>(occuperEntityList, HttpStatus.OK);
+//    }

@@ -28,25 +28,28 @@ public class MenuController {
 
     @Autowired
     AccederService accederService;
-    
-    
 
-    @ApiOperation(value = "Méthode permettant de récupérer la liste de menu d'un profil grace à son ID")
-    @GetMapping(value = "/menu/findByProfilID/{profilID}")
-    public ResponseEntity<List<MenuEntity>> recupererMenuParProfil(@PathVariable long profilID) {
-        ProfilEntity profil = profilService.findByProfilID(profilID);
 
-        List<AccederEntity> accesProfil = accederService.findByProfil(profil);
-        List<MenuEntity> menus = menuService.findByProfil(accesProfil);
-
-        return new ResponseEntity<>(menus, HttpStatus.OK);
-    }
 
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des menus")
     @GetMapping(value = "/menu/findAllMenu")
     public ResponseEntity<List<MenuEntity>> recupererMenus() {
         List<MenuEntity> menus = menuService.findAllMenu();
+
+        return new ResponseEntity<>(menus, HttpStatus.OK);
+    }
+
+
+
+    @ApiOperation(value = "Méthode permettant de récupérer la liste de menu d'un profil en fonction de l'ID du profil")
+    @GetMapping(value = "/menu/profil/{profilID}")
+    public ResponseEntity<List<MenuEntity>> recupererMenuParProfil(@PathVariable long profilID) {
+        ProfilEntity profil = profilService.findByProfilID(profilID);
+
+        List<AccederEntity> profilsAcceder = accederService.findByProfil(profil);
+
+        List<MenuEntity> menus = menuService.findByAccesProfil(profilsAcceder);
 
         return new ResponseEntity<>(menus, HttpStatus.OK);
     }

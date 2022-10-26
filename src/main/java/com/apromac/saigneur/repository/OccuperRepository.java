@@ -12,32 +12,19 @@ import java.util.List;
 public interface OccuperRepository extends JpaRepository<OccuperEntity, Long> {
     public List<OccuperEntity> findByUtilisateur(UtilisateurEntity utilisateur);
     public OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
-    public OccuperEntity findByPosteAndIsOccuperTrue(PosteEntity posteTDH);
-    public List<OccuperEntity> findByDistrictOccuperAndIsOccuperTrue(String district);
+    public OccuperEntity findByPosteAndIsOccuper(PosteEntity poste, Boolean isActif);
+
+}
+
+
+//    public List<OccuperEntity> findByPoste(PosteEntity poste);
+//    public OccuperEntity findByPosteAndIsOccuperTrue(PosteEntity posteTDH);
+//    public List<OccuperEntity> findByDistrictOccuperAndIsOccuperTrue(String district);
+//    public OccuperEntity findByUtilisateurAndPoste(UtilisateurEntity utilisateur, PosteEntity poste);
+
+
 //    public List<OccuperEntity> findByPosteAndDistrictOccuperAndIsOccuperTrue(PosteEntity posteTDH, String district);
 //    public List<OccuperEntity> findByPosteAndDistrictOccuper(PosteEntity posteTDH, String district);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //    @Query("SELECT o FROM OccuperEntity o WHERE o.utilisateur.utilisateurID = :utilisateurID AND o.isOccuper = :isActif")
 //    public OccuperEntity findByUtilisateurAndOccuperIsTrue(@Param("utilisateurID") Long utilisateurID, @Param("isOccuper") Boolean isActif);
-
-    public List<OccuperEntity> findByPoste(PosteEntity poste);
-    public OccuperEntity findByPosteAndIsOccuper(PosteEntity poste, Boolean isActif);
-    public OccuperEntity findByUtilisateurAndPoste(UtilisateurEntity utilisateur, PosteEntity poste);
-}

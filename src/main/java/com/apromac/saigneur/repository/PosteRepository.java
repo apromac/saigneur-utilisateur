@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface PosteRepository extends JpaRepository<PosteEntity, Long> {
     public List<PosteEntity> findByProfil(ProfilEntity profil);
+    public List<PosteEntity> findByProfilAndDistrictBean(ProfilEntity profilEntity, String districtBean);
 }

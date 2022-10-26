@@ -1,6 +1,5 @@
 package com.apromac.saigneur.controller;
 
-import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.service.ProfilService;
 import io.swagger.annotations.ApiOperation;
@@ -21,12 +20,34 @@ public class ProfilController {
 
 
 
+    @ApiOperation(value = "Méthode permettant de récupérer la liste des profils")
+    @GetMapping(value = "/profil/findAllProfil")
+    public ResponseEntity<List<ProfilEntity>> recupererProfils() {
+        List<ProfilEntity> profils = profilService.findAllProfil();
+
+        return new ResponseEntity<>(profils, HttpStatus.OK);
+    }
+
+
+
     @ApiOperation(value = "Méthode permettant de récupérer un profil grace à son ID")
     @GetMapping(value = "/profil/findByProfilID/{profilID}")
     public ResponseEntity<ProfilEntity> recupererUnProfil(@PathVariable long profilID) {
         ProfilEntity profil = profilService.findByProfilID(profilID);
 
         return new ResponseEntity<>(profil, HttpStatus.OK);
+    }
+
+
+
+    @ApiOperation(value = "Méthode permettant de modifier un profil grace à son ID")
+    @PutMapping(value = "/profil/{profilID}")
+    public ResponseEntity<ProfilEntity> modifierUnProfil(@RequestBody ProfilEntity profilEntity, @PathVariable Long profilID) {
+        ProfilEntity profilTrouver = profilService.findByProfilID(profilID);
+
+        ProfilEntity profilUpdate = profilService.updateProfil(profilTrouver, profilEntity);
+
+        return new ResponseEntity<>(profilUpdate, HttpStatus.OK);
     }
 
 
@@ -39,25 +60,4 @@ public class ProfilController {
         return new ResponseEntity<>(profilSave, HttpStatus.CREATED);
     }
 
-
-
-    @ApiOperation(value = "Méthode permettant de récupérer la liste des profils")
-    @GetMapping(value = "/profil/findAllProfil")
-    public ResponseEntity<List<ProfilEntity>> recupererProfils() {
-        List<ProfilEntity> profils = profilService.findAllProfil();
-
-        return new ResponseEntity<>(profils, HttpStatus.OK);
-    }
-
-
-    @ApiOperation(value = "Méthode permettant de modifier un profil grace à son ID")
-    @PutMapping(value = "/profil/{profilID}")
-    public ResponseEntity<ProfilEntity> modifierProfil(@RequestBody ProfilEntity profilEntity,
-                                                      @PathVariable Long profilID) {
-        ProfilEntity profilTrouver = profilService.findByProfilID(profilID);
-
-        ProfilEntity profilUpdate = profilService.updateProfil(profilTrouver, profilEntity);
-
-        return new ResponseEntity<>(profilUpdate, HttpStatus.OK);
-    }
 }

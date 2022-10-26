@@ -28,36 +28,26 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private AccederRepository accederRepository;
 
 
-    /**
-     *
-     * @param utilisateur
-     * @return
-     */
-    public UtilisateurEntity saveUtilisateur(UtilisateurEntity utilisateur) {
-        UtilisateurEntity utilisateurSave = utilisateurRepository.save(utilisateur);
-        if (utilisateurSave == null)
-            throw new RuntimeException("Une erreur est survenu lors de la sauvegarde de l'utilisateur.");
-
-        return utilisateurSave;
-    }
 
 
     /**
-     *
-     * @return
+     * Methode permettant de récupérer la liste des utilisateurs (UtilisateurDTO) avec plus d'informations. A savoir,
+     * le poste, le district et la zone de l'utilisateur.
+     * @return utilisateurDTOs
      */
-    public List<UtilisateurDTO> utilisateurDetails() {
+    @Override
+    public List<UtilisateurDTO> findByUtilisateurDTO() {
         List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
         if (utilisateurs.isEmpty())
-            throw new NoContentException("Désolé, la liste utilisateur est vide.");
+            throw new NoContentException("Désolé, aucun utilisateur disponible.");
 
-        List<UtilisateurDTO> utilisateurDetails = new ArrayList<>();
+        List<UtilisateurDTO> utilisateurDTOs = new ArrayList<>();
 
         for (UtilisateurEntity utilisateur: utilisateurs) {
             UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
 
-            List<OccuperEntity> occuperEntityList = occuperRepository.findByUtilisateur(utilisateur);
-            if (occuperEntityList.isEmpty()) {
+            List<OccuperEntity> occuperList = occuperRepository.findByUtilisateur(utilisateur);
+            if (occuperList.isEmpty()) {
                 utilisateurDTO.setUtilisateurID(utilisateur.getUtilisateurID());
                 utilisateurDTO.setNomUtilisateur(utilisateur.getNomUtilisateur());
                 utilisateurDTO.setPrenomsUtilisateur(utilisateur.getPrenomsUtilisateur());
@@ -69,7 +59,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 utilisateurDTO.setProfilActuel("");
                 utilisateurDTO.setDistrict("");
             } else {
-                for (OccuperEntity occuperEntity: occuperEntityList) {
+                for (OccuperEntity occuperEntity: occuperList) {
                     if (occuperEntity.getIsOccuper()) {
                         utilisateurDTO.setUtilisateurID(occuperEntity.getUtilisateur().getUtilisateurID());
                         utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
@@ -85,19 +75,22 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 }
             }
 
-            utilisateurDetails.add(utilisateurDTO);
+            utilisateurDTOs.add(utilisateurDTO);
         }
 
-        return utilisateurDetails;
+        return utilisateurDTOs;
     }
 
 
+
     /**
-     *
-     * @param username
-     * @param password
+     * Methode permettant de s'authentifier à la plateforme. Elle permet d'accéder au menu en fonction des droits
+     * que possèdent l'utilisateur.
+     * @param username represente le login de l'utilisateur (String)
+     * @param password resperente le mot de passe de l'utilisateur (String)
      * @return
      */
+    @Override
     public UtilisateurDTO authentification(String username, String password) {
         UtilisateurEntity utilisateurAuthentifier = utilisateurRepository.findByUsernameAndPassword(username, password);
         if (utilisateurAuthentifier == null)
@@ -136,24 +129,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 
+
     /**
-     *
-     * @param utilisateurTrouver
-     * @param utilisateurEntity
+     * Methode permettant de sauvegarder un utilisateur.
+     * @param utilisateur represente un objet utilisateur.
      * @return
      */
-    public UtilisateurEntity updateUtilisateur(UtilisateurEntity utilisateurTrouver, UtilisateurEntity utilisateurEntity) {
-
-        utilisateurTrouver.setNomUtilisateur(utilisateurEntity.getNomUtilisateur());
-        utilisateurTrouver.setPrenomsUtilisateur(utilisateurEntity.getPrenomsUtilisateur());
-        utilisateurTrouver.setUsername(utilisateurEntity.getUsername());
-        utilisateurTrouver.setPassword(utilisateurEntity.getPassword());
-        utilisateurTrouver.setTelephoneUtilisateur(utilisateurEntity.getTelephoneUtilisateur());
-        utilisateurTrouver.setPhotoUtilisateur(utilisateurEntity.getPhotoUtilisateur());
-
-        UtilisateurEntity utilisateurSave = utilisateurRepository.saveAndFlush(utilisateurTrouver);
+    @Override
+    public UtilisateurEntity saveUtilisateur(UtilisateurEntity utilisateur) {
+        UtilisateurEntity utilisateurSave = utilisateurRepository.save(utilisateur);
         if (utilisateurSave == null)
-            throw new RuntimeException("Désolé, nous avons rencontré une ereur lors de la mise à jour des données de l'utilisateur");
+            throw new RuntimeException("Une erreur est survenu lors de la sauvegarde de l'utilisateur.");
 
         return utilisateurSave;
     }
@@ -161,71 +147,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
 
     /**
-     *
-     * @param utilisateurID
-     * @return
-     */
-    public UtilisateurDTO findByUtilisateurDTO(Long utilisateurID) {
-        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
-        if (!utilisateurOptional.isPresent())
-            throw new NotFoundException("Désolé, cet utilisateur n'existe pas dans la base.");
-
-        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get());
-        if (occuperEntity == null)
-            throw new NotFoundException("Désolé, nous n'avons pas pu recupérer les informations de l'utilisateur");
-
-        UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
-        utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
-        utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
-        utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
-        utilisateurDTO.setPassword("");
-        utilisateurDTO.setTelephoneUtilisateur(occuperEntity.getUtilisateur().getTelephoneUtilisateur());
-        utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
-        utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
-        utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
-        utilisateurDTO.setDistrict(occuperEntity.getDistrictOccuper());
-
-        return utilisateurDTO;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     *
-     * @param utilisateurID
+     * Methode permettant de récupérer un utilisateur grace à son ID
+     * @param utilisateurID répresente l'ID de l'utilisateur
      * @return
      */
     @Override
@@ -238,17 +161,72 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 
+
     /**
-     *
-     * @return
+     * Methode permettant de modifier les informations d'un utilisateur grace à utilisateurTrouver et utilisateurEntity
+     * @param utilisateurTrouver est un objet Utilisateur provenant de la base de données
+     * @param utilisateurEntity est un objet Utilisateur provenant de la partie cliente
+     * @return utilisateurUpdate
      */
     @Override
-    public List<UtilisateurEntity> findAllUtilisateur() {
-        List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
-        if (utilisateurs.isEmpty())
-            throw new NoContentException("Désolé, aucun utilisateur disponible");
+    public UtilisateurEntity updateUtilisateur(UtilisateurEntity utilisateurTrouver, UtilisateurEntity utilisateurEntity) {
+        utilisateurTrouver.setNomUtilisateur(utilisateurEntity.getNomUtilisateur());
+        utilisateurTrouver.setPrenomsUtilisateur(utilisateurEntity.getPrenomsUtilisateur());
+        utilisateurTrouver.setUsername(utilisateurEntity.getUsername());
+        utilisateurTrouver.setPassword(utilisateurEntity.getPassword());
+        utilisateurTrouver.setTelephoneUtilisateur(utilisateurEntity.getTelephoneUtilisateur());
+        utilisateurTrouver.setPhotoUtilisateur(utilisateurEntity.getPhotoUtilisateur());
 
-        return utilisateurs;
+        UtilisateurEntity utilisateurUpdate = utilisateurRepository.saveAndFlush(utilisateurTrouver);
+        if (utilisateurUpdate == null)
+            throw new RuntimeException("Désolé, nous avons rencontré une erreur lors de la mise à jour des données de l'utilisateur");
+
+        return utilisateurUpdate;
     }
 
 }
+
+
+
+
+//    /**
+//     * Methode permettant de récupérer la liste des utilisateurs
+//     * @return
+//     */
+//    public List<UtilisateurEntity> findAllUtilisateurs() {
+//        List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
+//        if (utilisateurs.isEmpty())
+//            throw new NoContentException("Désolé, aucun utilisateur disponible");
+//
+//        return utilisateurs;
+//    }
+//
+//
+//    /**
+//     *
+//     * @param utilisateurID
+//     * @return
+//     */
+//    public UtilisateurDTO findByUtilisateurDTO(Long utilisateurID) {
+//        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
+//        if (!utilisateurOptional.isPresent())
+//            throw new NotFoundException("Désolé, cet utilisateur n'existe pas dans la base.");
+//
+//        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get());
+//        if (occuperEntity == null)
+//            throw new NotFoundException("Désolé, nous n'avons pas pu recupérer les informations de l'utilisateur");
+//
+//        UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
+//        utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
+//        utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
+//        utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
+//        utilisateurDTO.setPassword("");
+//        utilisateurDTO.setTelephoneUtilisateur(occuperEntity.getUtilisateur().getTelephoneUtilisateur());
+//        utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
+//        utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
+//        utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
+//        utilisateurDTO.setDistrict(occuperEntity.getDistrictOccuper());
+//
+//        return utilisateurDTO;
+//    }
+

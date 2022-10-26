@@ -6,9 +6,19 @@ import com.apromac.saigneur.entity.MenuEntity;
 import java.util.List;
 
 public interface MenuService {
-    public List<MenuEntity> findByProfil(List<AccederEntity> accederList);
+
+    /**
+     * Methode permettant de récupérer la liste de menu
+     * @return
+     */
     public List<MenuEntity> findAllMenu();
 
-
+    /**
+     * Methode permettant de récupérer la liste de menu en fonction de la liste des profils contenus dans les objets
+     * accederList
+     * @param accederList
+     * @return
+     */
+    public List<MenuEntity> findByAccesProfil(List<AccederEntity> accederList);
 
 }

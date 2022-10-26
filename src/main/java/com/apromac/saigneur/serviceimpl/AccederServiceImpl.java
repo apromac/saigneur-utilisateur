@@ -24,25 +24,15 @@ public class AccederServiceImpl implements AccederService {
     @Autowired
     MenuRepository menuRepository;
 
-    /**
-     *
-     * @param profilEntity
-     * @return
-     */
-    public List<AccederEntity> findByProfil(ProfilEntity profilEntity) {
-        List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
-        if (acceders.isEmpty())
-            throw new NoContentException("Désolé, ce profil ne possede aucun droit sur les menus.");
 
-        return acceders;
-    }
 
 
     /**
-     *
-     * @param profilEntity
-     * @param menuIDs
-     * @return
+     * Méthode permettant de sauvegarder les droits d'accès menu d'un profil en fonction d'un objet Profil et d'une liste
+     * d'ID de menu.
+     * @param profilEntity represente l'objet Profil
+     * @param menuIDs represente la liste des ID menu
+     * @return acces
      */
     public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, List<Long> menuIDs) {
         List<AccederEntity> acces = new ArrayList<>();
@@ -64,4 +54,20 @@ public class AccederServiceImpl implements AccederService {
 
         return acces;
     }
+
+
+
+    /**
+     * Methode permettant de récupérer la liste des accès menu d'un profil.
+     * @param profilEntity represente l'objet profil identifié
+     * @return acceder
+     */
+    public List<AccederEntity> findByProfil(ProfilEntity profilEntity) {
+        List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
+        if (acceders.isEmpty())
+            throw new NoContentException("Désolé, ce profil ne possede aucun droit sur les menus.");
+
+        return acceders;
+    }
+
 }
