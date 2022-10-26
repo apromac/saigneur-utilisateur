@@ -31,7 +31,7 @@ public class ProfilController {
 
 
     @ApiOperation(value = "Méthode permettant de récupérer un profil grace à son ID")
-    @GetMapping(value = "/profil/findByProfilID/{profilID}")
+    @GetMapping(value = "/profil/{profilID}")
     public ResponseEntity<ProfilEntity> recupererUnProfil(@PathVariable long profilID) {
         ProfilEntity profil = profilService.findByProfilID(profilID);
 
