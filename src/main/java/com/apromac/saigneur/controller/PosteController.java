@@ -37,7 +37,7 @@ public class PosteController {
 
 
     @ApiOperation(value = "Méthode permettant de récupérer un poste grace à son ID")
-    @GetMapping(value = "/poste/findByPosteID/{posteID}")
+    @GetMapping(value = "/poste/{posteID}")
     public ResponseEntity<PosteEntity> recupererUnPoste(@PathVariable long posteID) {
         PosteEntity poste = posteService.findByPosteID(posteID);
 
