@@ -22,10 +22,10 @@ public interface PosteService {
 
     /**
      * Methode permettant de sauvegarder un poste.
-     * @param posteRequest
+     * @param posteEntity
      * @return posteSave
      */
-    public PosteEntity savePoste(PosteRequest posteRequest);
+    public PosteEntity savePoste(PosteEntity posteEntity);
 
     /**
      * Methode permettant de modifier un poste grace au posteTrouver et au posteEntity.

@@ -63,18 +63,13 @@ public class PosteServiceImpl implements PosteService {
 
     /**
      * Methode permettant de sauvegarder un poste. Prend en paramètre un objet posteRequest provenant de la partie cliente.
-     * @param posteRequest est un objet contenant un ID de profil et un libelle de poste
+     * @param posteEntity est un objet contenant un ID de profil et un libelle de poste
      * @return posteSave
      */
     @Override
-    public PosteEntity savePoste(PosteRequest posteRequest) {
-        Optional<ProfilEntity> profilOptional = profilRepository.findById(posteRequest.getProfilID());
-        if (!profilOptional.isPresent())
-            throw new NotFoundException("Désolé, l'ID ne correspond à aucun profil.");
-
-        PosteEntity posteEntity = new PosteEntity();
-        posteEntity.setLibellePoste(posteRequest.getLibellePoste());
-        posteEntity.setProfil(profilOptional.get());
+    public PosteEntity savePoste(PosteEntity posteEntity) {
+        if (posteEntity.getProfil() == null)
+            throw new NotFoundException("Désolé, nous n'avons pas pu récupérer le profil.");
 
         PosteEntity posteSave = posteRepository.save(posteEntity);
         if (posteSave == null)
@@ -199,4 +194,18 @@ public class PosteServiceImpl implements PosteService {
 //    }
 //
 
-
+//    public PosteEntity savePoste(PosteEntity posteEntity) {
+//        Optional<ProfilEntity> profilOptional = profilRepository.findById(posteRequest.getProfilID());
+//        if (!profilOptional.isPresent())
+//            throw new NotFoundException("Désolé, l'ID ne correspond à aucun profil.");
+//
+//        PosteEntity posteEntity = new PosteEntity();
+//        posteEntity.setLibellePoste(posteRequest.getLibellePoste());
+//        posteEntity.setProfil(profilOptional.get());
+//
+//        PosteEntity posteSave = posteRepository.save(posteEntity);
+//        if (posteSave == null)
+//            throw new RuntimeException("Une erreur est survenu lors de la sauvegarde du poste.");
+//
+//        return posteSave;
+//    }

@@ -48,8 +48,8 @@ public class PosteController {
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste")
     @PostMapping(value = "/poste/savePoste")
-    public ResponseEntity<PosteEntity> sauvegarderUnPoste(@RequestBody PosteRequest posteRequest) {
-        PosteEntity posteSave = posteService.savePoste(posteRequest);
+    public ResponseEntity<PosteEntity> sauvegarderUnPoste(@RequestBody PosteEntity posteEntity) {
+        PosteEntity posteSave = posteService.savePoste(posteEntity);
 
         return new ResponseEntity<>(posteSave, HttpStatus.CREATED);
     }

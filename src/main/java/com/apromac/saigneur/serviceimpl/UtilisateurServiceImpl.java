@@ -108,7 +108,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         List<MenuEntity> menus = new ArrayList<>();
         for (AccederEntity acces : acceders) {
-            MenuEntity menu = acces.getMenu();
+            MenuEntity menu = acces.getMenu(); // cré une exception lorsque il n'y a pas de menu pour ce profil
             menus.add(menu);
         }
 
