@@ -46,15 +46,17 @@ public class OccuperServiceImpl implements OccuperService {
         if (utilisateurEntity == null)
             throw new RuntimeException("Désolé, cet utilisateur n'est pas valide");
 
-        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuper(posteEntity, true);
+//        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuper(posteEntity, true);
+        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuperTrue(posteEntity);
         if (posteOccuper != null)
             throw new LockedException("Désolé, ce poste est déja occupé");
 
-        OccuperEntity buildOccuper = buildZoneUtilisateur(occuperEntity);
+        OccuperEntity buildOccuper = buildPosteOccuper(occuperEntity);
         OccuperEntity saveOccuper = occuperRepository.save(buildOccuper);
 
         return saveOccuper;
     }
+
 
 
     /**
@@ -62,7 +64,7 @@ public class OccuperServiceImpl implements OccuperService {
      * @param occuperEntity
      * @return
      */
-    public OccuperEntity buildZoneUtilisateur(OccuperEntity occuperEntity) {
+    public OccuperEntity buildPosteOccuper(OccuperEntity occuperEntity) {
         OccuperEntity occuperBuild = new OccuperEntity();
         occuperBuild.setUtilisateur(occuperEntity.getUtilisateur());
         occuperBuild.setPoste(occuperEntity.getPoste());
@@ -76,6 +78,8 @@ public class OccuperServiceImpl implements OccuperService {
     }
 
 }
+
+
 
 
 

@@ -1,9 +1,10 @@
 package com.apromac.saigneur.controller;
 
 import com.apromac.saigneur.entity.PosteEntity;
+import com.apromac.saigneur.entity.ProfilEntity;
+import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.PosteService;
-import com.apromac.saigneur.utility.PosteRequest;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,9 +80,9 @@ public class PosteController {
 
 
     @ApiOperation(value = "Méthode permettant de récupérer la liste des postes par rapport à un profil et un district")
-    @GetMapping(value = "/poste/profil/{profilID}/district/{district}")
-    public ResponseEntity<List<PosteEntity>> recupererPostesParDistrict(@PathVariable Long profilID, @PathVariable String district) {
-        List<PosteEntity> profilPostes = posteService.findByProfilAndDistrictBean(profilID, district);
+    @GetMapping(value = "/poste/profil/{profilID}/district/{libelleDistrict}")
+    public ResponseEntity<List<PosteEntity>> recupererPostesParDistrict(@PathVariable Long profilID, @PathVariable String libelleDistrict) {
+        List<PosteEntity> profilPostes = posteService.findByProfilAndDistrictBean(profilID, libelleDistrict);
 
         return new ResponseEntity<>(profilPostes, HttpStatus.OK);
     }

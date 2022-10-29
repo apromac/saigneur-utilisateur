@@ -104,7 +104,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
         if (acceders.isEmpty())
-            throw new NoContentException("Désolé, ce profil ne possede aucun droit sur les menus.");
+            throw new NoContentException("Désolé, ce profil ne possede aucun menu.");
 
         List<MenuEntity> menus = new ArrayList<>();
         for (AccederEntity acces : acceders) {

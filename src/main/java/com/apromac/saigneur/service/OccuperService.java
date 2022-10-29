@@ -12,7 +12,6 @@ public interface OccuperService {
      */
     public OccuperEntity saveOccuper(OccuperEntity occuperEntity);
 
-
 }
 
 
