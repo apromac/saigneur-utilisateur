@@ -123,6 +123,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateurDTO.setPosteActuel(posteUtilisateurOccuper.getPoste().getLibellePoste());
         utilisateurDTO.setProfilActuel(posteUtilisateurOccuper.getPoste().getProfil().getLibelleProfil());
         utilisateurDTO.setDistrict(posteUtilisateurOccuper.getDistrictOccuper());
+        utilisateurDTO.setZone(posteUtilisateurOccuper.getZoneOccuper());
         utilisateurDTO.setMenus(menus);
 
         return utilisateurDTO;

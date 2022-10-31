@@ -8,7 +8,6 @@ import com.apromac.saigneur.proxy.MicroserviceUtilitaireProxy;
 import com.apromac.saigneur.repository.PosteRepository;
 import com.apromac.saigneur.repository.ProfilRepository;
 import com.apromac.saigneur.service.PosteService;
-import com.apromac.saigneur.utility.PosteRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

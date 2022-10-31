@@ -1,8 +1,6 @@
 package com.apromac.saigneur.controller;
 
 import com.apromac.saigneur.entity.PosteEntity;
-import com.apromac.saigneur.entity.ProfilEntity;
-import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.PosteService;
 import io.swagger.annotations.ApiOperation;

@@ -35,6 +35,41 @@ public class AccederServiceImpl implements AccederService {
      * @return acces
      */
     public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, List<Long> menuIDs) {
+        deleteAccesMenu(profilEntity, menuIDs);
+
+        List<AccederEntity> accesMenu = addAccesMenu(profilEntity, menuIDs);
+
+        return accesMenu;
+    }
+
+
+    /**
+     *
+     * @param profilEntity
+     * @param menuIDs
+     */
+    private void deleteAccesMenu(ProfilEntity profilEntity, List<Long> menuIDs) {
+        for (Long menuID: menuIDs) {
+            Optional<MenuEntity> menuOptional = menuRepository.findById(menuID);
+            if (!menuOptional.isPresent())
+                continue;
+
+            MenuEntity menuEntity = menuOptional.get();
+
+            AccederEntity accederTrouver = accederRepository.findByProfilAndMenu(profilEntity, menuEntity);
+            if (accederTrouver != null)
+                accederRepository.delete(accederTrouver);
+        }
+    }
+
+
+    /**
+     * 
+     * @param profilEntity
+     * @param menuIDs
+     * @return
+     */
+    private List<AccederEntity> addAccesMenu(ProfilEntity profilEntity, List<Long> menuIDs) {
         List<AccederEntity> acces = new ArrayList<>();
 
         for (Long menuID: menuIDs) {
@@ -54,7 +89,6 @@ public class AccederServiceImpl implements AccederService {
 
         return acces;
     }
-
 
 
     /**
