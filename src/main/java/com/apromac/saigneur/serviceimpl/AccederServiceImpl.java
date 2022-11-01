@@ -38,7 +38,6 @@ public class AccederServiceImpl implements AccederService {
         deleteAccesMenu(profilEntity);
 
         List<AccederEntity> accesMenu = addAccesMenu(profilEntity, menuIDs);
-
         return accesMenu;
     }
 
@@ -49,7 +48,9 @@ public class AccederServiceImpl implements AccederService {
      */
     private void deleteAccesMenu(ProfilEntity profilEntity) {
         List<AccederEntity> acceder = accederRepository.findByProfil(profilEntity);
-        accederRepository.deleteAll(acceder);
+        for (AccederEntity accederEntity : acceder) {
+            accederRepository.delete(accederEntity);
+        }
     }
 
 
