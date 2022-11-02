@@ -20,10 +20,20 @@ public class OccuperController {
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste occupé par un utilisateur")
     @PostMapping(value = "/occuper/saveOccuper")
-    public ResponseEntity<OccuperEntity> sauvegarderUnPosteOccuper(@RequestBody OccuperEntity occuperEntity ) {
+    public ResponseEntity<OccuperEntity> sauvegarderUnPosteOccuper(@RequestBody OccuperEntity occuperEntity) {
         OccuperEntity occuperSave = occuperService.saveOccuper(occuperEntity);
 
         return new ResponseEntity<>(occuperSave, HttpStatus.CREATED);
+    }
+
+
+
+    @ApiOperation(value = "Méthode permettant de sauvegarder un poste occupé par un utilisateur")
+    @PostMapping(value = "/occuper/utilisateur/{utilisateurID}")
+    public ResponseEntity<OccuperEntity> recupererUnPosteOccuper(@PathVariable Long utilisateurID) {
+        OccuperEntity occuperTrouver = occuperService.findByUtilisateurAndIsOccuper(utilisateurID);
+
+        return new ResponseEntity<>(occuperTrouver, HttpStatus.CREATED);
     }
 
 }

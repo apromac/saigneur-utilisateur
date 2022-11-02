@@ -12,6 +12,13 @@ public interface OccuperService {
      */
     public OccuperEntity saveOccuper(OccuperEntity occuperEntity);
 
+    /**
+     * Methode permettant de récupérer un poste occuper par un utilisateur.
+     * @param utilisateurID
+     * @return
+     */
+    public OccuperEntity findByUtilisateurAndIsOccuper(Long utilisateurID);
+
 }
 
 

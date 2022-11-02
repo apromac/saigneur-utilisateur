@@ -4,6 +4,8 @@ import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.exception.LockedException;
+import com.apromac.saigneur.exception.NoContentException;
+import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.proxy.MicroserviceUtilitaireProxy;
 import com.apromac.saigneur.repository.OccuperRepository;
 import com.apromac.saigneur.repository.PosteRepository;
@@ -11,6 +13,8 @@ import com.apromac.saigneur.repository.UtilisateurRepository;
 import com.apromac.saigneur.service.OccuperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class OccuperServiceImpl implements OccuperService {
@@ -75,6 +79,24 @@ public class OccuperServiceImpl implements OccuperService {
         occuperBuild.setDistrictOccuper(occuperEntity.getPoste().getDistrictBean());
 
         return occuperEntity;
+    }
+
+
+    /**
+     *
+     * @param utilisateurID
+     * @return
+     */
+    public OccuperEntity findByUtilisateurAndIsOccuper(Long utilisateurID) {
+        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
+        if (!utilisateurOptional.isPresent())
+            throw new NotFoundException("Désolé, cet utilisateur est inconnu au système.");
+
+        OccuperEntity occuperTrouver = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get());
+        if (occuperTrouver == null)
+            throw new NoContentException("");
+
+        return occuperTrouver;
     }
 
 }
