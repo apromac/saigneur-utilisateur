@@ -33,7 +33,7 @@ public class OccuperController {
     public ResponseEntity<OccuperEntity> recupererUnPosteOccuper(@PathVariable Long utilisateurID) {
         OccuperEntity occuperTrouver = occuperService.findByUtilisateurAndIsOccuper(utilisateurID);
 
-        return new ResponseEntity<>(occuperTrouver, HttpStatus.CREATED);
+        return new ResponseEntity<>(occuperTrouver, HttpStatus.OK);
     }
 
 }
