@@ -29,7 +29,7 @@ public class OccuperController {
 
 
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste occupé par un utilisateur")
-    @PostMapping(value = "/occuper/utilisateur/{utilisateurID}")
+    @GetMapping(value = "/occuper/utilisateur/{utilisateurID}")
     public ResponseEntity<OccuperEntity> recupererUnPosteOccuper(@PathVariable Long utilisateurID) {
         OccuperEntity occuperTrouver = occuperService.findByUtilisateurAndIsOccuper(utilisateurID);
 
