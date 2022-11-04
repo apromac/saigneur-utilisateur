@@ -94,7 +94,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public UtilisateurDTO authentification(String username, String password) {
         UtilisateurEntity utilisateurAuthentifier = utilisateurRepository.findByUsernameAndPassword(username, password);
         if (utilisateurAuthentifier == null)
-            throw new NotFoundException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
+//            throw new NotFoundException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
+            throw new NoContentException("Veuillez vérifier vos identifiants et reessayer.");
 
         OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
         if (posteUtilisateurOccuper == null)
@@ -103,7 +104,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         ProfilEntity profilEntity = posteUtilisateurOccuper.getPoste().getProfil();
 
         List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
-        if (acceders.isEmpty())
+        if (acceders.isEmpty() || acceders == null)
             throw new NoContentException("Désolé, ce profil ne possede aucun menu.");
 
         List<MenuEntity> menus = new ArrayList<>();

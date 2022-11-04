@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class AccederServiceImpl implements AccederService {
      * @param menuIDs represente la liste des ID menu
      * @return acces
      */
-    public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, List<Long> menuIDs) {
+    public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, LinkedList<Long> menuIDs) {
         List<AccederEntity> acceder = accederRepository.findByProfil(profilEntity);
         for (AccederEntity accederEntity : acceder) {
             accederRepository.delete(accederEntity);
@@ -58,12 +59,8 @@ public class AccederServiceImpl implements AccederService {
         }
 
         return acces;
-
-//        deleteAccesMenu(profilEntity);
-//
-//        List<AccederEntity> accesMenu = addAccesMenu(profilEntity, menuIDs);
-//        return accesMenu;
     }
+
 
 
     /**
@@ -76,6 +73,7 @@ public class AccederServiceImpl implements AccederService {
             accederRepository.delete(accederEntity);
         }
     }
+
 
 
     /**

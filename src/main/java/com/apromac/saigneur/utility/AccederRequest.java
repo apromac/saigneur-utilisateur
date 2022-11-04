@@ -3,11 +3,11 @@ package com.apromac.saigneur.utility;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.LinkedList;
 
 @Getter
 @Setter
 public class AccederRequest {
     private Long profilID;
-    private List<Long> menuIDs;
+    private LinkedList<Long> menuIDs;
 }
