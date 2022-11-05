@@ -73,6 +73,7 @@ public class ProfilServiceImpl implements ProfilService {
      * @return profilSave
      */
     public ProfilEntity saveProfil(ProfilEntity profil) {
+        profil.getLibelleProfil().toUpperCase();
         ProfilEntity profilSave = profilRepository.save(profil);
         if (profilSave == null)
             throw new RuntimeException("Une erreur est survenu lors de la sauvegarde du profil.");

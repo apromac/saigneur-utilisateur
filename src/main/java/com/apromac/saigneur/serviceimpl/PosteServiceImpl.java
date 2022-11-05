@@ -70,6 +70,7 @@ public class PosteServiceImpl implements PosteService {
         if (posteEntity.getProfil() == null)
             throw new NotFoundException("Désolé, nous n'avons pas pu récupérer le profil.");
 
+        posteEntity.getLibellePoste().toUpperCase();
         PosteEntity posteSave = posteRepository.save(posteEntity);
         if (posteSave == null)
             throw new RuntimeException("Une erreur est survenu lors de la sauvegarde du poste.");
