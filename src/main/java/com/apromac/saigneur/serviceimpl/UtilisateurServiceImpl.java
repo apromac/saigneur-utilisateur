@@ -139,6 +139,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      */
     @Override
     public UtilisateurEntity saveUtilisateur(UtilisateurEntity utilisateur) {
+        utilisateur.setNomUtilisateur(utilisateur.getNomUtilisateur().toUpperCase());
+        utilisateur.setPrenomsUtilisateur(utilisateur.getPrenomsUtilisateur().toUpperCase());
         UtilisateurEntity utilisateurSave = utilisateurRepository.save(utilisateur);
         if (utilisateurSave == null)
             throw new RuntimeException("Une erreur est survenu lors de la sauvegarde de l'utilisateur.");
@@ -172,8 +174,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      */
     @Override
     public UtilisateurEntity updateUtilisateur(UtilisateurEntity utilisateurTrouver, UtilisateurEntity utilisateurEntity) {
-        utilisateurTrouver.setNomUtilisateur(utilisateurEntity.getNomUtilisateur());
-        utilisateurTrouver.setPrenomsUtilisateur(utilisateurEntity.getPrenomsUtilisateur());
+        utilisateurTrouver.setNomUtilisateur(utilisateurEntity.getNomUtilisateur().toUpperCase());
+        utilisateurTrouver.setPrenomsUtilisateur(utilisateurEntity.getPrenomsUtilisateur().toUpperCase());
         utilisateurTrouver.setUsername(utilisateurEntity.getUsername());
         utilisateurTrouver.setPassword(utilisateurEntity.getPassword());
         utilisateurTrouver.setTelephoneUtilisateur(utilisateurEntity.getTelephoneUtilisateur());
@@ -187,48 +189,4 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 }
-
-
-
-
-//    /**
-//     * Methode permettant de récupérer la liste des utilisateurs
-//     * @return
-//     */
-//    public List<UtilisateurEntity> findAllUtilisateurs() {
-//        List<UtilisateurEntity> utilisateurs = utilisateurRepository.findAll();
-//        if (utilisateurs.isEmpty())
-//            throw new NoContentException("Désolé, aucun utilisateur disponible");
-//
-//        return utilisateurs;
-//    }
-//
-//
-//    /**
-//     *
-//     * @param utilisateurID
-//     * @return
-//     */
-//    public UtilisateurDTO findByUtilisateurDTO(Long utilisateurID) {
-//        Optional<UtilisateurEntity> utilisateurOptional = utilisateurRepository.findById(utilisateurID);
-//        if (!utilisateurOptional.isPresent())
-//            throw new NotFoundException("Désolé, cet utilisateur n'existe pas dans la base.");
-//
-//        OccuperEntity occuperEntity = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurOptional.get());
-//        if (occuperEntity == null)
-//            throw new NotFoundException("Désolé, nous n'avons pas pu recupérer les informations de l'utilisateur");
-//
-//        UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
-//        utilisateurDTO.setNomUtilisateur(occuperEntity.getUtilisateur().getNomUtilisateur());
-//        utilisateurDTO.setPrenomsUtilisateur(occuperEntity.getUtilisateur().getPrenomsUtilisateur());
-//        utilisateurDTO.setUsername(occuperEntity.getUtilisateur().getUsername());
-//        utilisateurDTO.setPassword("");
-//        utilisateurDTO.setTelephoneUtilisateur(occuperEntity.getUtilisateur().getTelephoneUtilisateur());
-//        utilisateurDTO.setPhotoUtilisateur(occuperEntity.getUtilisateur().getPhotoUtilisateur());
-//        utilisateurDTO.setPosteActuel(occuperEntity.getPoste().getLibellePoste());
-//        utilisateurDTO.setProfilActuel(occuperEntity.getPoste().getProfil().getLibelleProfil());
-//        utilisateurDTO.setDistrict(occuperEntity.getDistrictOccuper());
-//
-//        return utilisateurDTO;
-//    }
 

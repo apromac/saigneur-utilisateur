@@ -48,6 +48,9 @@ public class PosteController {
     @ApiOperation(value = "Méthode permettant de sauvegarder un poste")
     @PostMapping(value = "/poste/savePoste")
     public ResponseEntity<PosteEntity> sauvegarderUnPoste(@RequestBody PosteEntity posteEntity) {
+        posteEntity.setLibellePoste(posteEntity.getLibellePoste().toUpperCase());
+        posteEntity.setDistrictBean(posteEntity.getDistrictBean().toUpperCase());
+        posteEntity.setZoneBean(posteEntity.getZoneBean().toUpperCase());
         PosteEntity posteSave = posteService.savePoste(posteEntity);
 
         return new ResponseEntity<>(posteSave, HttpStatus.CREATED);
