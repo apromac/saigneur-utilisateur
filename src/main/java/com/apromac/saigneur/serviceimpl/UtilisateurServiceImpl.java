@@ -99,7 +99,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
         if (posteUtilisateurOccuper == null)
-            throw new NotFoundException("Désolé, nous avons rencontré un problème lors de la synchronisation des données");
+            throw new NotFoundException("Désolé, aucun poste ne vous a été attribué. Veuillez contacter l'administrateur");
 
         ProfilEntity profilEntity = posteUtilisateurOccuper.getPoste().getProfil();
 

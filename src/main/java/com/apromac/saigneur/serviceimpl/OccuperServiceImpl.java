@@ -90,7 +90,7 @@ public class OccuperServiceImpl implements OccuperService {
     }
 
 
-    
+
     /**
      *
      * @param utilisateurID
