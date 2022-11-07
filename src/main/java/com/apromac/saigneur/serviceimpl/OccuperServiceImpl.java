@@ -14,6 +14,7 @@ import com.apromac.saigneur.service.OccuperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,7 +56,7 @@ public class OccuperServiceImpl implements OccuperService {
         if (posteOccuper != null)
             throw new LockedException("Désolé, ce poste est déja occupé");
 
-        OccuperEntity buildOccuper = buildPosteOccuper(occuperEntity);
+        OccuperEntity buildOccuper = buildPosteOccuper(occuperEntity, posteEntity);
         OccuperEntity saveOccuper = occuperRepository.save(buildOccuper);
 
         return saveOccuper;
@@ -68,7 +69,14 @@ public class OccuperServiceImpl implements OccuperService {
      * @param occuperEntity
      * @return
      */
-    public OccuperEntity buildPosteOccuper(OccuperEntity occuperEntity) {
+    private OccuperEntity buildPosteOccuper(OccuperEntity occuperEntity, PosteEntity posteEntity) {
+        List<OccuperEntity> listePosteOccuper = occuperRepository.findByPoste(posteEntity);
+        if (!listePosteOccuper.isEmpty()) {
+            for (OccuperEntity occuper : listePosteOccuper) {
+                occuper.setIsOccuper(false);
+            }
+        }
+
         OccuperEntity occuperBuild = new OccuperEntity();
         occuperBuild.setUtilisateur(occuperEntity.getUtilisateur());
         occuperBuild.setPoste(occuperEntity.getPoste());
@@ -82,6 +90,7 @@ public class OccuperServiceImpl implements OccuperService {
     }
 
 
+    
     /**
      *
      * @param utilisateurID

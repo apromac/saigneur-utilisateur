@@ -13,6 +13,7 @@ public interface OccuperRepository extends JpaRepository<OccuperEntity, Long> {
     OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
     List<OccuperEntity> findByUtilisateur(UtilisateurEntity utilisateur);
     OccuperEntity findByPosteAndIsOccuperTrue(PosteEntity poste);
+    List<OccuperEntity> findByPoste(PosteEntity poste);
 }
 
 
