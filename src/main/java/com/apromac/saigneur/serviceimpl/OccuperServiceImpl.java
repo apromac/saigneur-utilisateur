@@ -2,6 +2,7 @@ package com.apromac.saigneur.serviceimpl;
 
 import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
+import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.exception.LockedException;
 import com.apromac.saigneur.exception.NoContentException;
@@ -51,12 +52,13 @@ public class OccuperServiceImpl implements OccuperService {
         if (utilisateurEntity == null)
             throw new RuntimeException("Désolé, cet utilisateur n'est pas valide");
 
-//        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuper(posteEntity, true);
-        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuperTrue(posteEntity);
+        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuper(posteEntity, true);
+//        OccuperEntity posteOccuper = occuperRepository.findByPosteAndIsOccuperTrue(posteEntity);
         if (posteOccuper != null)
             throw new LockedException("Désolé, ce poste est déja occupé");
 
-        OccuperEntity buildOccuper = buildPosteOccuper(occuperEntity, posteEntity);
+//        OccuperEntity buildOccuper = buildPosteOccuper(occuperEntity, posteEntity);
+        OccuperEntity buildOccuper = buildPosteOccuper(occuperEntity);
         OccuperEntity saveOccuper = occuperRepository.save(buildOccuper);
 
         return saveOccuper;
@@ -69,13 +71,13 @@ public class OccuperServiceImpl implements OccuperService {
      * @param occuperEntity
      * @return
      */
-    private OccuperEntity buildPosteOccuper(OccuperEntity occuperEntity, PosteEntity posteEntity) {
-        List<OccuperEntity> listePosteOccuper = occuperRepository.findByPoste(posteEntity);
-        if (!listePosteOccuper.isEmpty()) {
-            for (OccuperEntity occuper : listePosteOccuper) {
-                occuper.setIsOccuper(false);
-            }
-        }
+    private OccuperEntity buildPosteOccuper(OccuperEntity occuperEntity) {
+//        List<OccuperEntity> listePosteOccuper = occuperRepository.findByPoste(posteEntity);
+//        if (!listePosteOccuper.isEmpty()) {
+//            for (OccuperEntity occuper : listePosteOccuper) {
+//                occuper.setIsOccuper(false);
+//            }
+//        }
 
         OccuperEntity occuperBuild = new OccuperEntity();
         occuperBuild.setUtilisateur(occuperEntity.getUtilisateur());
@@ -106,6 +108,49 @@ public class OccuperServiceImpl implements OccuperService {
             throw new NoContentException("");
 
         return occuperTrouver;
+    }
+
+
+    /**
+     * Methode permettant de recupérer une entité Occuper grace à son ID
+     * @param occuperID
+     * @return
+     */
+    @Override
+    public OccuperEntity findByOccuperID(Long occuperID) {
+        Optional<OccuperEntity> occuperOptional = occuperRepository.findById(occuperID);
+        if (!occuperOptional.isPresent())
+            throw new NotFoundException("Désolé, cette entité est introuvable.");
+
+        return occuperOptional.get();
+    }
+
+
+    /**
+     * Methode permettant de modifier un poste occuper
+     * @param occuperTrouver
+     * @param occuperEntity
+     * @return
+     */
+    @Override
+    public OccuperEntity updateOccuper(OccuperEntity occuperTrouver, OccuperEntity occuperEntity) {
+        if (occuperEntity.getPoste() == null)
+            throw new NotFoundException("Désolé, ");
+
+        if (occuperEntity.getUtilisateur() == null)
+            throw new NotFoundException("Désolé, ");
+
+        occuperTrouver.setIsOccuper(false);
+        occuperTrouver.setMotifOccuper(occuperEntity.getMotifOccuper());
+        occuperTrouver.setDateOccuper(occuperEntity.getDateOccuper());
+        occuperTrouver.setZoneOccuper(occuperEntity.getZoneOccuper());
+        occuperTrouver.setDistrictOccuper(occuperEntity.getDistrictOccuper());
+        occuperTrouver.setPoste(occuperEntity.getPoste());
+        occuperTrouver.setUtilisateur(occuperEntity.getUtilisateur());
+
+        OccuperEntity updateOccuper = occuperRepository.saveAndFlush(occuperTrouver);
+
+        return updateOccuper;
     }
 
 }

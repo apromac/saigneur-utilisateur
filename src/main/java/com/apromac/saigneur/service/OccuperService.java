@@ -19,6 +19,21 @@ public interface OccuperService {
      */
     public OccuperEntity findByUtilisateurAndIsOccuper(Long utilisateurID);
 
+    /**
+     * Methode permettant de recupérer un poste occupé grace à l'ID occuper
+     * @param occuperID
+     * @return
+     */
+    public OccuperEntity findByOccuperID(Long occuperID);
+
+    /**
+     * Methode permettant de modifier un poste occupé
+     * @param occuperTrouver
+     * @param occuperEntity
+     * @return
+     */
+    public OccuperEntity updateOccuper(OccuperEntity occuperTrouver, OccuperEntity occuperEntity);
+
 }
 
 
