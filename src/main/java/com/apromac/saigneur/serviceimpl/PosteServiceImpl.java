@@ -95,9 +95,9 @@ public class PosteServiceImpl implements PosteService {
 
             ProfilEntity profil = profilOptional.get();
 
-            posteTrouver.setLibellePoste(posteEntity.getLibellePoste());
-            posteTrouver.setZoneBean(posteEntity.getZoneBean());
-            posteTrouver.setDistrictBean(posteEntity.getDistrictBean());
+            posteTrouver.setLibellePoste(posteEntity.getLibellePoste().toUpperCase());
+            posteTrouver.setZoneBean(posteEntity.getZoneBean() == null? "" : posteEntity.getZoneBean());
+            posteTrouver.setDistrictBean(posteEntity.getDistrictBean() == null? "" : posteEntity.getDistrictBean());
             posteTrouver.setProfil(profil);
         }
 

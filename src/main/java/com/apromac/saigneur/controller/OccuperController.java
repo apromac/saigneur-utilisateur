@@ -1,7 +1,6 @@
 package com.apromac.saigneur.controller;
 
 import com.apromac.saigneur.entity.OccuperEntity;
-import com.apromac.saigneur.entity.UtilisateurEntity;
 import com.apromac.saigneur.service.OccuperService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class OccuperController {
 
 
 
-    @ApiOperation(value = "Méthode permettant de sauvegarder un poste occupé par un utilisateur")
+    @ApiOperation(value = "Méthode permettant de recupérer un poste occupé par un utilisateur")
     @GetMapping(value = "/occuper/utilisateur/{utilisateurID}")
     public ResponseEntity<OccuperEntity> recupererUnPosteOccuper(@PathVariable Long utilisateurID) {
         OccuperEntity occuperTrouver = occuperService.findByUtilisateurAndIsOccuper(utilisateurID);
@@ -39,7 +38,7 @@ public class OccuperController {
 
 
 
-    @ApiOperation(value = "Méthode permettant de sauvegarder un poste occupé par un utilisateur")
+    @ApiOperation(value = "Méthode permettant de modifier un poste occupé par un utilisateur")
     @PutMapping(value = "/occuper/{occuperID}")
     public ResponseEntity<OccuperEntity> modifierUnPosteOccuper(@PathVariable Long occuperID, @RequestBody OccuperEntity occuperEntity) {
         OccuperEntity occuperTrouver = occuperService.findByOccuperID(occuperID);
