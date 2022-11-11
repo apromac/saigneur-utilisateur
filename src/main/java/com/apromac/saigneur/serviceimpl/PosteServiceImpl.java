@@ -70,7 +70,7 @@ public class PosteServiceImpl implements PosteService {
         if (posteEntity.getProfil() == null)
             throw new NotFoundException("Désolé, nous n'avons pas pu récupérer le profil.");
 
-        posteEntity.setLibellePoste(posteEntity.getLibellePoste().toUpperCase());
+        posteEntity.setLibellePoste(posteEntity.getLibellePoste().toUpperCase().trim());
         PosteEntity posteSave = posteRepository.save(posteEntity);
         if (posteSave == null)
             throw new RuntimeException("Une erreur est survenu lors de la sauvegarde du poste.");
@@ -95,7 +95,7 @@ public class PosteServiceImpl implements PosteService {
 
             ProfilEntity profil = profilOptional.get();
 
-            posteTrouver.setLibellePoste(posteEntity.getLibellePoste().toUpperCase());
+            posteTrouver.setLibellePoste(posteEntity.getLibellePoste().toUpperCase().trim());
             posteTrouver.setZoneBean(posteEntity.getZoneBean() == null? "" : posteEntity.getZoneBean());
             posteTrouver.setDistrictBean(posteEntity.getDistrictBean() == null? "" : posteEntity.getDistrictBean());
             posteTrouver.setProfil(profil);

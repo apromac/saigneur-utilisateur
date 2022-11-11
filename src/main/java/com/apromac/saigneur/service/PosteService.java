@@ -1,7 +1,6 @@
 package com.apromac.saigneur.service;
 
 import com.apromac.saigneur.entity.PosteEntity;
-import com.apromac.saigneur.utility.PosteRequest;
 
 import java.util.List;
 
@@ -52,5 +51,3 @@ public interface PosteService {
 
 }
 
-//
-//    public PosteDTO findByPosteDTO(Long posteID);

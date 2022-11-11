@@ -10,10 +10,7 @@ import com.apromac.saigneur.service.AccederService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccederServiceImpl implements AccederService {
@@ -85,7 +82,9 @@ public class AccederServiceImpl implements AccederService {
     private List<AccederEntity> addAccesMenu(ProfilEntity profilEntity, List<Long> menuIDs) {
         List<AccederEntity> acces = new ArrayList<>();
 
-        for (Long menuID: menuIDs) {
+        Set<Long> menuListUnique = new HashSet<>(menuIDs);
+
+        for (Long menuID: menuListUnique) {
             Optional<MenuEntity> menuOptional = menuRepository.findById(menuID);
             if (!menuOptional.isPresent())
                 continue;
@@ -107,14 +106,18 @@ public class AccederServiceImpl implements AccederService {
     /**
      * Methode permettant de récupérer la liste des accès menu d'un profil.
      * @param profilEntity represente l'objet profil identifié
-     * @return acceder
+     * @return accesProfil
      */
     public List<AccederEntity> findByProfil(ProfilEntity profilEntity) {
-        List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
-        if (acceders.isEmpty())
+        List<AccederEntity> accesProfil = accederRepository.findByProfil(profilEntity);
+        if (accesProfil.isEmpty())
             throw new NoContentException("Désolé, ce profil ne possede aucun droit sur les menus.");
 
-        return acceders;
+        Set<AccederEntity> accederUnique = new HashSet<>(accesProfil);
+
+        accesProfil = new ArrayList<>(accederUnique);
+
+        return accesProfil;
     }
 
 }
