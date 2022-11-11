@@ -40,7 +40,9 @@ public class AccederServiceImpl implements AccederService {
 
         List<AccederEntity> acces = new ArrayList<>();
 
-        for (Long menuID: menuIDs) {
+        Set<Long> menuListUnique = new HashSet<>(menuIDs);
+
+        for (Long menuID: menuListUnique) {
             Optional<MenuEntity> menuOptional = menuRepository.findById(menuID);
             if (!menuOptional.isPresent())
                 continue;
