@@ -97,7 +97,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 //            throw new NotFoundException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
             throw new NoContentException("Veuillez vérifier vos identifiants et reessayer.");
 
-        OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
+//        OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
+        OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuper(utilisateurAuthentifier, true);
         if (posteUtilisateurOccuper == null)
             throw new NotFoundException("Désolé, aucun poste ne vous a été attribué. Veuillez contacter l'administrateur");
 
