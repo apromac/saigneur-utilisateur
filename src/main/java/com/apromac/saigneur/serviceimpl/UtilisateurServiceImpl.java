@@ -188,5 +188,19 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurUpdate;
     }
 
+
+    /**
+     * Methode permettant de supprimer un utilisateur à partir d'un objet UtilisateurEntity.
+     * on supprime l'utilisateur lorsque ce dernier n'a pas de poste
+     * @param utilisateurEntity
+     */
+    public void deleteUtilisateur(UtilisateurEntity utilisateurEntity) {
+        List<OccuperEntity> posteOccuperParUtilisateur = occuperRepository.findByUtilisateur(utilisateurEntity);
+        if (posteOccuperParUtilisateur.isEmpty())
+            utilisateurRepository.delete(utilisateurEntity);
+
+    }
+
+
 }
 

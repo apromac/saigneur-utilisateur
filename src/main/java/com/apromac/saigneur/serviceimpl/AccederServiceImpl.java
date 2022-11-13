@@ -18,7 +18,6 @@ public class AccederServiceImpl implements AccederService {
     @Autowired
     AccederRepository accederRepository;
 
-
     @Autowired
     MenuRepository menuRepository;
 

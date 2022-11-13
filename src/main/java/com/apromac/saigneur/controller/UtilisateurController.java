@@ -70,7 +70,25 @@ public class UtilisateurController {
         return new ResponseEntity<>(utilisateurUpdate, HttpStatus.OK);
     }
 
+
+
+    @ApiOperation(value = "Méthode permettant de supprimer un utilisateur grace à son ID")
+    @DeleteMapping(value = "/utilisateur/{utilisateurID}")
+    public ResponseEntity<Void> supprimerUnUtilisateur(@PathVariable Long utilisateurID) {
+        UtilisateurEntity utilisateurTrouver = utilisateurService.findByUtilisateurID(utilisateurID);
+
+        utilisateurService.deleteUtilisateur(utilisateurTrouver);
+        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+    }
+
 }
+
+
+
+
+
+
+
 
 
 

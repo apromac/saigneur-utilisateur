@@ -48,6 +48,12 @@ public interface UtilisateurService {
      */
     public UtilisateurEntity updateUtilisateur(UtilisateurEntity utilisateurTrouver, UtilisateurEntity utilisateurEntity);
 
+    /**
+     * Methode permettant de supprimer un utilisateur à partir d'un objet UtilisateurEntity
+     * @param utilisateurEntity
+     */
+    public void deleteUtilisateur(UtilisateurEntity utilisateurEntity);
+
 }
 
 
