@@ -3,6 +3,7 @@ package com.apromac.saigneur.serviceimpl;
 import com.apromac.saigneur.dto.UtilisateurDTO;
 import com.apromac.saigneur.entity.*;
 import com.apromac.saigneur.exception.NoContentException;
+import com.apromac.saigneur.exception.NotAcceptableException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.repository.AccederRepository;
 import com.apromac.saigneur.repository.OccuperRepository;
@@ -197,8 +198,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      */
     public void deleteUtilisateur(UtilisateurEntity utilisateurEntity) {
         List<OccuperEntity> posteOccuperParUtilisateur = occuperRepository.findByUtilisateur(utilisateurEntity);
-        if (posteOccuperParUtilisateur.isEmpty())
+        if (posteOccuperParUtilisateur.isEmpty()) {
             utilisateurRepository.delete(utilisateurEntity);
+        } else {
+            throw new NotAcceptableException("Désolé, ce utilisateur ne peut être supprimé car il est rattaché à une autre entité.");
+        }
 
     }
 

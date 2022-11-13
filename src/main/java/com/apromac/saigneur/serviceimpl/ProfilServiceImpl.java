@@ -3,6 +3,7 @@ package com.apromac.saigneur.serviceimpl;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.exception.NoContentException;
+import com.apromac.saigneur.exception.NotAcceptableException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.repository.PosteRepository;
 import com.apromac.saigneur.repository.ProfilRepository;
@@ -98,8 +99,11 @@ public class ProfilServiceImpl implements ProfilService {
     @Override
     public void deleteProfil(ProfilEntity profilEntity) {
         List<PosteEntity> postes = posteRepository.findByProfil(profilEntity);
-        if (postes.isEmpty())
+        if (postes.isEmpty()) {
             profilRepository.delete(profilEntity);
+        } else {
+            throw new NotAcceptableException("Désolé, ce profil ne peut être supprimé car il est rattaché à une autre entité.");
+        }
     }
 
 }
