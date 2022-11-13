@@ -158,11 +158,15 @@ public class PosteServiceImpl implements PosteService {
     /**
      * Methode permetant de supprimer un poste grace à un objet PosteEntity
      * @param posteEntity
+     * @return
      */
     public void deletePoste(PosteEntity posteEntity) {
         List<OccuperEntity> postesOccuper = occuperRepository.findByPoste(posteEntity);
-        if (postesOccuper.isEmpty())
+        if (postesOccuper.isEmpty()) {
             posteRepository.delete(posteEntity);
+        } else {
+            throw new NoContentException("Désolé, ce poste ne peut pas être supprimé car il est rattaché à d'autre entité.");
+        }
     }
 
 }

@@ -52,6 +52,7 @@ public interface PosteService {
     /**
      * Methode permettant de supprimer un poste grace à un objet PosteEntity
      * @param posteEntity
+     * @return
      */
     public void deletePoste(PosteEntity posteEntity);
 

@@ -89,7 +89,7 @@ public class PosteController {
 
     @ApiOperation(value = "Méthode permettant de supprimer un poste grace à son ID")
     @DeleteMapping(value = "/poste/{posteID}")
-    public ResponseEntity<Void> supprimerUnPoste(@PathVariable Long posteID) {
+    public ResponseEntity<?> supprimerUnPoste(@PathVariable Long posteID) {
         PosteEntity posteTrouver = posteService.findByPosteID(posteID);
 
         posteService.deletePoste(posteTrouver);
