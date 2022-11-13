@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface OccuperRepository extends JpaRepository<OccuperEntity, Long> {
-//    OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
-    OccuperEntity findByUtilisateurAndIsOccuper(UtilisateurEntity utilisateur, Boolean IsOccuper);
+//    OccuperEntity findByUtilisateurAndIsOccuper(UtilisateurEntity utilisateur, Boolean IsOccuper);
+    OccuperEntity findByUtilisateurAndIsOccuperTrue(UtilisateurEntity utilisateur);
     List<OccuperEntity> findByUtilisateur(UtilisateurEntity utilisateur);
 //    OccuperEntity findByPosteAndIsOccuperTrue(PosteEntity poste);
     OccuperEntity findByPosteAndIsOccuper(PosteEntity posteEntity, Boolean isOccuper);
