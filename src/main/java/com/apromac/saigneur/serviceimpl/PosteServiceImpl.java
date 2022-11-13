@@ -4,6 +4,7 @@ import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.exception.NoContentException;
+import com.apromac.saigneur.exception.NotAcceptableException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.proxy.MicroserviceUtilitaireProxy;
 import com.apromac.saigneur.repository.OccuperRepository;
@@ -165,7 +166,7 @@ public class PosteServiceImpl implements PosteService {
         if (postesOccuper.isEmpty()) {
             posteRepository.delete(posteEntity);
         } else {
-            throw new NoContentException("Désolé, ce poste ne peut pas être supprimé car il est rattaché à d'autre entité.");
+            throw new NotAcceptableException("Désolé, ce poste ne peut pas être supprimé car il est rattaché à d'autre entité.");
         }
     }
 
