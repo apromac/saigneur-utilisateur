@@ -1,8 +1,10 @@
 package com.apromac.saigneur.serviceimpl;
 
+import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
+import com.apromac.saigneur.repository.PosteRepository;
 import com.apromac.saigneur.repository.ProfilRepository;
 import com.apromac.saigneur.service.ProfilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class ProfilServiceImpl implements ProfilService {
     @Autowired
     private ProfilRepository profilRepository;
 
+    @Autowired
+    private PosteRepository posteRepository;
 
 
     /**
@@ -57,6 +61,7 @@ public class ProfilServiceImpl implements ProfilService {
      * @param profilEntity
      * @return profilUpdate
      */
+    @Override
     public ProfilEntity updateProfil(ProfilEntity profilTrouver, ProfilEntity profilEntity) {
         profilTrouver.setLibelleProfil(profilEntity.getLibelleProfil());
 
@@ -67,11 +72,13 @@ public class ProfilServiceImpl implements ProfilService {
 
 
 
+
     /**
      * Methode permettant de sauvegarder un profil. Prend en argument le profil à sauvegarder
      * @param profil
      * @return profilSave
      */
+    @Override
     public ProfilEntity saveProfil(ProfilEntity profil) {
         profil.setLibelleProfil(profil.getLibelleProfil().toUpperCase());
         ProfilEntity profilSave = profilRepository.save(profil);
@@ -79,6 +86,20 @@ public class ProfilServiceImpl implements ProfilService {
             throw new RuntimeException("Une erreur est survenu lors de la sauvegarde du profil.");
 
         return profilSave;
+    }
+
+
+
+
+    /**
+     * Methode permettant de supprimer un profil grace à l'objet profilEntity
+     * @param profilEntity
+     */
+    @Override
+    public void deleteProfil(ProfilEntity profilEntity) {
+        List<PosteEntity> postes = posteRepository.findByProfil(profilEntity);
+        if (postes.isEmpty())
+            profilRepository.delete(profilEntity);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.apromac.saigneur.controller;
 
 import com.apromac.saigneur.entity.PosteEntity;
+import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.service.OccuperService;
 import com.apromac.saigneur.service.PosteService;
 import io.swagger.annotations.ApiOperation;
@@ -83,6 +84,17 @@ public class PosteController {
         List<PosteEntity> profilPostes = posteService.findByProfilAndDistrictBean(profilID, libelleDistrict);
 
         return new ResponseEntity<>(profilPostes, HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "Méthode permettant de supprimer un poste grace à son ID")
+    @DeleteMapping(value = "/poste/{posteID}")
+    public ResponseEntity<Void> supprimerUnPoste(@PathVariable Long posteID) {
+        PosteEntity posteTrouver = posteService.findByPosteID(posteID);
+
+        posteService.deletePoste(posteTrouver);
+
+        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
     }
 
 }

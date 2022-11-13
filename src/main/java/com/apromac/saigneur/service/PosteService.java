@@ -49,5 +49,11 @@ public interface PosteService {
      */
     public List<PosteEntity> findByProfilAndDistrictBean(Long profilID, String districtBean);
 
+    /**
+     * Methode permettant de supprimer un poste grace à un objet PosteEntity
+     * @param posteEntity
+     */
+    public void deletePoste(PosteEntity posteEntity);
+
 }
 

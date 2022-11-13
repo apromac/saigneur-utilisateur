@@ -60,4 +60,15 @@ public class ProfilController {
         return new ResponseEntity<>(profilSave, HttpStatus.CREATED);
     }
 
+
+    @ApiOperation(value = "Méthode permettant de supprimer un profil grace à son ID")
+    @DeleteMapping(value = "/profil/{profilID}")
+    public ResponseEntity<Void> supprimerUnProfil(@PathVariable Long profilID) {
+        ProfilEntity profilTrouver = profilService.findByProfilID(profilID);
+
+        profilService.deleteProfil(profilTrouver);
+
+        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+    }
+
 }

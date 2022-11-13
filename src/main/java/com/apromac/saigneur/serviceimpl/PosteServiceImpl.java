@@ -1,10 +1,12 @@
 package com.apromac.saigneur.serviceimpl;
 
+import com.apromac.saigneur.entity.OccuperEntity;
 import com.apromac.saigneur.entity.PosteEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 import com.apromac.saigneur.exception.NoContentException;
 import com.apromac.saigneur.exception.NotFoundException;
 import com.apromac.saigneur.proxy.MicroserviceUtilitaireProxy;
+import com.apromac.saigneur.repository.OccuperRepository;
 import com.apromac.saigneur.repository.PosteRepository;
 import com.apromac.saigneur.repository.ProfilRepository;
 import com.apromac.saigneur.service.PosteService;
@@ -22,6 +24,9 @@ public class PosteServiceImpl implements PosteService {
 
     @Autowired
     private ProfilRepository profilRepository;
+
+    @Autowired
+    private OccuperRepository occuperRepository;
 
     @Autowired
     private MicroserviceUtilitaireProxy microserviceUtilitaireProxy;
@@ -145,6 +150,19 @@ public class PosteServiceImpl implements PosteService {
             throw new NoContentException("Désolé, aucun poste disponible");
 
         return postes;
+    }
+
+
+
+
+    /**
+     * Methode permetant de supprimer un poste grace à un objet PosteEntity
+     * @param posteEntity
+     */
+    public void deletePoste(PosteEntity posteEntity) {
+        List<OccuperEntity> postesOccuper = occuperRepository.findByPoste(posteEntity);
+        if (postesOccuper.isEmpty())
+            posteRepository.delete(posteEntity);
     }
 
 }

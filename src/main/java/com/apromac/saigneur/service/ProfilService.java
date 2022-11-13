@@ -34,4 +34,10 @@ public interface ProfilService {
      */
     public ProfilEntity saveProfil(ProfilEntity profil);
 
+    /**
+     * Methode permmettant de supprimer un profil grace à son ID
+     * @param profilEntity
+     */
+    public void deleteProfil(ProfilEntity profilEntity);
+
 }
