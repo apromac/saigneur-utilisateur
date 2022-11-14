@@ -96,7 +96,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         UtilisateurEntity utilisateurAuthentifier = utilisateurRepository.findByUsernameAndPassword(username, password);
         if (utilisateurAuthentifier == null)
 //            throw new NotFoundException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
-            throw new NoContentException("Veuillez vérifier vos identifiants et reessayer.");
+            throw new NotFoundException("Veuillez vérifier vos identifiants et reessayer.");
 
 //        OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuper(utilisateurAuthentifier, true);
         OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
