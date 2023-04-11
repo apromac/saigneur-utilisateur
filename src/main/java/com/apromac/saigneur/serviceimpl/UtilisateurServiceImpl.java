@@ -95,19 +95,18 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public UtilisateurDTO authentification(String username, String password) {
         UtilisateurEntity utilisateurAuthentifier = utilisateurRepository.findByUsernameAndPassword(username, password);
         if (utilisateurAuthentifier == null)
-//            throw new NotFoundException("Une erreur est survenu lors de l'authentification de l'utilisateur.");
-            throw new NotFoundException("Veuillez vérifier vos identifiants et reessayer.");
+            throw new NotFoundException("Veuillez vérifier vos identifiants et réessayer.");
 
 //        OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuper(utilisateurAuthentifier, true);
         OccuperEntity posteUtilisateurOccuper = occuperRepository.findByUtilisateurAndIsOccuperTrue(utilisateurAuthentifier);
         if (posteUtilisateurOccuper == null)
-            throw new NotFoundException("Désolé, aucun poste ne vous a été attribué. Veuillez contacter l'administrateur");
+            throw new NotFoundException("Désolé, aucun poste ne vous a été attribué. Veuillez contacter l'administrateur.");
 
         ProfilEntity profilEntity = posteUtilisateurOccuper.getPoste().getProfil();
 
         List<AccederEntity> acceders = accederRepository.findByProfil(profilEntity);
         if (acceders.isEmpty() || acceders == null)
-            throw new NotFoundException("Désolé, vous ne posseder pas de droit pour acceder à la plateforme, veuillez contacter l'administrateur");
+            throw new NotFoundException("Désolé, vous ne posseder pas de droit pour acceder à la plateforme, veuillez contacter l'administrateur.");
 
         List<MenuEntity> menus = new ArrayList<>();
         for (AccederEntity acces : acceders) {

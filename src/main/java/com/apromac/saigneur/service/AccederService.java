@@ -3,7 +3,6 @@ package com.apromac.saigneur.service;
 import com.apromac.saigneur.entity.AccederEntity;
 import com.apromac.saigneur.entity.ProfilEntity;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public interface AccederService {
@@ -14,7 +13,7 @@ public interface AccederService {
      * @param profilEntity
      * @param menuIDs
      */
-    public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, LinkedList<Long> menuIDs);
+    public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, List<Long> menuIDs);
 
     /**
      * Methode permettant de récupérer la liste des accès menu d'un profil

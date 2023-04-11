@@ -1,15 +1,18 @@
 pipeline {
     agent any
     tools {
-        maven "Maven386"
+        maven "Maven391"
     }
     environment {
         DOCKER_IMAGE_NAME = "saigneur-utilisateur"
         CONTAINER_NAME = "msaigneur-utilisateur"
+        REGISTRY = 'apromac/saigneur-utilisateur'
+        BUILD_TAG = "1.0.${BUILD_NUMBER}"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 
     stages {
-        stage('Build') {
+        stage('Clean package') {
             steps {
                 echo '--------------------< Compilation du code source >--------------------'
                 sh 'mvn -B -DskipTests clean package'
@@ -27,6 +30,31 @@ pipeline {
                 echo '--------------------< Affichage des containers actifs >--------------------'
                 sh 'docker ps'
             }
+        }
+
+        stage('Push image on the docker hub') {
+            steps {
+                echo '--------------------< Connexion au docker hub >--------------------'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+                echo '--------------------< Tag docker image for build tag>--------------------'
+                sh 'docker image tag ${DOCKER_IMAGE_NAME}:latest ${REGISTRY}:${BUILD_TAG}'
+
+                echo '--------------------< Push tag version >--------------------'
+                sh 'docker push ${REGISTRY}:${BUILD_TAG}'
+
+                echo '--------------------< Tag docker image for latest version >--------------------'
+                sh 'docker image tag ${DOCKER_IMAGE_NAME}:latest ${REGISTRY}:latest'
+
+                echo '--------------------< Push latest version >--------------------'
+                sh 'docker push ${REGISTRY}:latest'
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker logout'
         }
     }
 }

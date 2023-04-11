@@ -24,6 +24,42 @@ public class AccederServiceImpl implements AccederService {
 
 
 
+//    /**
+//     * Méthode permettant de sauvegarder les droits d'accès menu d'un profil en fonction d'un objet Profil et d'une liste
+//     * d'ID de menu.
+//     * @param profilEntity represente l'objet Profil
+//     * @param menuIDs represente la liste des ID menu
+//     * @return acces
+//     */
+//    public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, LinkedList<Long> menuIDs) {
+//        List<AccederEntity> acceder = accederRepository.findByProfil(profilEntity);
+//        for (AccederEntity accederEntity : acceder) {
+//            accederRepository.delete(accederEntity);
+//        }
+//
+//        List<AccederEntity> acces = new ArrayList<>();
+//
+//        Set<Long> menuListUnique = new HashSet<>(menuIDs);
+//
+//        for (Long menuID: menuListUnique) {
+//            Optional<MenuEntity> menuOptional = menuRepository.findById(menuID);
+//            if (!menuOptional.isPresent())
+//                continue;
+//
+//            MenuEntity menuEntity = menuOptional.get();
+//
+//            AccederEntity accederEntity = new AccederEntity();
+//            accederEntity.setProfil(profilEntity);
+//            accederEntity.setMenu(menuEntity);
+//
+//            AccederEntity saveAcceder = accederRepository.save(accederEntity);
+//            acces.add(saveAcceder);
+//        }
+//
+//        return acces;
+//    }
+
+
     /**
      * Méthode permettant de sauvegarder les droits d'accès menu d'un profil en fonction d'un objet Profil et d'une liste
      * d'ID de menu.
@@ -31,32 +67,27 @@ public class AccederServiceImpl implements AccederService {
      * @param menuIDs represente la liste des ID menu
      * @return acces
      */
-    public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, LinkedList<Long> menuIDs) {
-        List<AccederEntity> acceder = accederRepository.findByProfil(profilEntity);
-        for (AccederEntity accederEntity : acceder) {
-            accederRepository.delete(accederEntity);
-        }
+    @Override
+    public List<AccederEntity> saveMenuByProfil(ProfilEntity profilEntity, List<Long> menuIDs) {
+        deleteAccesMenu(profilEntity);
 
-        List<AccederEntity> acces = new ArrayList<>();
-
+        List<AccederEntity> accesMenu = new LinkedList<>();
         Set<Long> menuListUnique = new HashSet<>(menuIDs);
-
         for (Long menuID: menuListUnique) {
             Optional<MenuEntity> menuOptional = menuRepository.findById(menuID);
             if (!menuOptional.isPresent())
                 continue;
 
             MenuEntity menuEntity = menuOptional.get();
-
             AccederEntity accederEntity = new AccederEntity();
             accederEntity.setProfil(profilEntity);
             accederEntity.setMenu(menuEntity);
 
             AccederEntity saveAcceder = accederRepository.save(accederEntity);
-            acces.add(saveAcceder);
+            accesMenu.add(saveAcceder);
         }
 
-        return acces;
+        return accesMenu;
     }
 
 
@@ -74,34 +105,34 @@ public class AccederServiceImpl implements AccederService {
 
 
 
-    /**
-     *
-     * @param profilEntity
-     * @param menuIDs
-     * @return
-     */
-    private List<AccederEntity> addAccesMenu(ProfilEntity profilEntity, List<Long> menuIDs) {
-        List<AccederEntity> acces = new ArrayList<>();
-
-        Set<Long> menuListUnique = new HashSet<>(menuIDs);
-
-        for (Long menuID: menuListUnique) {
-            Optional<MenuEntity> menuOptional = menuRepository.findById(menuID);
-            if (!menuOptional.isPresent())
-                continue;
-
-            MenuEntity menuEntity = menuOptional.get();
-
-            AccederEntity accederEntity = new AccederEntity();
-            accederEntity.setProfil(profilEntity);
-            accederEntity.setMenu(menuEntity);
-
-            AccederEntity saveAcceder = accederRepository.save(accederEntity);
-            acces.add(saveAcceder);
-        }
-
-        return acces;
-    }
+//    /**
+//     *
+//     * @param profilEntity
+//     * @param menuIDs
+//     * @return
+//     */
+//    private List<AccederEntity> addAccesMenu(ProfilEntity profilEntity, List<Long> menuIDs) {
+//        List<AccederEntity> acces = new ArrayList<>();
+//
+//        Set<Long> menuListUnique = new HashSet<>(menuIDs);
+//
+//        for (Long menuID: menuListUnique) {
+//            Optional<MenuEntity> menuOptional = menuRepository.findById(menuID);
+//            if (!menuOptional.isPresent())
+//                continue;
+//
+//            MenuEntity menuEntity = menuOptional.get();
+//
+//            AccederEntity accederEntity = new AccederEntity();
+//            accederEntity.setProfil(profilEntity);
+//            accederEntity.setMenu(menuEntity);
+//
+//            AccederEntity saveAcceder = accederRepository.save(accederEntity);
+//            acces.add(saveAcceder);
+//        }
+//
+//        return acces;
+//    }
 
 
     /**
